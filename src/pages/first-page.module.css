@@ -1,0 +1,19 @@
+.centeredText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.title {
+  font-size: 48px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.text {
+  font-size: 24px;
+  line-height: 1.5;
+}
