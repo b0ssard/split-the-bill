@@ -1,38 +1,22 @@
 import React, { useState } from "react";
 
-export default function Home() {
-  const [totalBill, setTotalBill] = useState(0);
-  const [numberOfPeople, setNumberOfPeople] = useState(1);
-  const [tipPercentage, setTipPercentage] = useState(0);
+const Home: React.FC = () => {
+  const [totalBill, setTotalBill] = useState<number>(0);
+  const [numberOfPeople, setNumberOfPeople] = useState<number>(1);
+  const [tipPercentage, setTipPercentage] = useState<number>(0);
 
-  const handleTotalBillChange = (
+  const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
+    setter: React.Dispatch<React.SetStateAction<number>>,
   ) => {
     const value = parseFloat(event.target.value);
-    setTotalBill(isNaN(value) ? 0 : value);
+    setter(isNaN(value) ? 0 : value);
   };
 
-  const handleNumberOfPeopleChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const value = parseInt(event.target.value, 10);
-    setNumberOfPeople(isNaN(value) ? 1 : value);
-  };
-
-  const handleTipPercentageChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const value = parseInt(event.target.value, 10);
-    setTipPercentage(isNaN(value) ? 0 : value);
-  };
-
-  const calculateTotalWithTip = () => {
-    return totalBill + (totalBill * tipPercentage) / 100;
-  };
-
-  const calculatePerPersonAmount = () => {
-    return numberOfPeople > 1 ? calculateTotalWithTip() / numberOfPeople : 0;
-  };
+  const calculateTotalWithTip = () =>
+    totalBill + (totalBill * tipPercentage) / 100;
+  const calculatePerPersonAmount = () =>
+    numberOfPeople > 1 ? calculateTotalWithTip() / numberOfPeople : 0;
 
   return (
     <div>
@@ -43,7 +27,7 @@ export default function Home() {
           <input
             type="number"
             value={totalBill === 0 ? "" : totalBill}
-            onChange={handleTotalBillChange}
+            onChange={(e) => handleChange(e, setTotalBill)}
             placeholder="Quanto deu a conta?"
           />
         </label>
@@ -54,7 +38,7 @@ export default function Home() {
           <input
             type="number"
             value={numberOfPeople === 1 ? "" : numberOfPeople}
-            onChange={handleNumberOfPeopleChange}
+            onChange={(e) => handleChange(e, setNumberOfPeople)}
             placeholder="Quantos vão dividir?"
           />
         </label>
@@ -65,7 +49,7 @@ export default function Home() {
           <input
             type="number"
             value={tipPercentage === 0 ? "" : tipPercentage}
-            onChange={handleTipPercentageChange}
+            onChange={(e) => handleChange(e, setTipPercentage)}
             placeholder="Porcentagem da gorjeta"
           />
         </label>
@@ -77,4 +61,6 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};
+
+export default Home;
