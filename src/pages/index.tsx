@@ -1,8 +1,27 @@
 import React, { useState } from "react";
 
+interface InputProps {
+  value: number;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+}
+
+const Input: React.FC<InputProps> = ({ value, onChange, placeholder }) => (
+  <input
+    type="number"
+    value={value === 0 ? "" : value}
+    onChange={onChange}
+    placeholder={placeholder}
+  />
+);
+
 const Home: React.FC = () => {
-  const [totalBill, setTotalBill] = useState<number>(0);
+  const [foodBill, setFoodBill] = useState<number>(0);
+  const [drinkBill, setDrinkBill] = useState<number>(0);
   const [numberOfPeople, setNumberOfPeople] = useState<number>(1);
+  const [foodOnlyPeople, setFoodOnlyPeople] = useState<number>(0);
+  const [drinkOnlyPeople, setDrinkOnlyPeople] = useState<number>(0);
+  const [foodAndDrinkPeople, setFoodAndDrinkPeople] = useState<number>(0);
   const [tipPercentage, setTipPercentage] = useState<number>(0);
 
   const handleChange = (
@@ -14,30 +33,52 @@ const Home: React.FC = () => {
   };
 
   const calculateTotalWithTip = () =>
-    totalBill + (totalBill * tipPercentage) / 100;
-  const calculatePerPersonAmount = () =>
-    numberOfPeople > 1 ? calculateTotalWithTip() / numberOfPeople : 0;
+    foodBill + drinkBill + (foodBill + drinkBill) * (tipPercentage / 100);
+
+  const calculateSimplePerPersonAmount = () =>
+    calculateTotalWithTip() / numberOfPeople;
+
+  //fazer um total people para tirar da equação que está se repetindo
+
+  const foodOnlyTotal =
+    (foodBill + foodBill * (tipPercentage / 100)) /
+    (foodOnlyPeople + foodAndDrinkPeople);
+
+  const drinkOnlyTotal =
+    (drinkBill + drinkBill * (tipPercentage / 100)) /
+    (drinkOnlyPeople + foodAndDrinkPeople);
+
+  const calculateFoodAndDrinkTotal =
+    foodOnlyTotal + drinkOnlyTotal / foodAndDrinkPeople;
 
   return (
     <div>
       <h1>Dividir Conta</h1>
       <div>
         <label>
-          Valor da Conta:
-          <input
-            type="number"
-            value={totalBill === 0 ? "" : totalBill}
-            onChange={(e) => handleChange(e, setTotalBill)}
-            placeholder="Quanto deu a conta?"
+          Comida:
+          <Input
+            value={foodBill}
+            onChange={(e) => handleChange(e, setFoodBill)}
+            placeholder="Valor da comida"
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          Bebida:
+          <Input
+            value={drinkBill}
+            onChange={(e) => handleChange(e, setDrinkBill)}
+            placeholder="Valor da bebida"
           />
         </label>
       </div>
       <div>
         <label>
           Número de Pessoas:
-          <input
-            type="number"
-            value={numberOfPeople === 1 ? "" : numberOfPeople}
+          <Input
+            value={numberOfPeople}
             onChange={(e) => handleChange(e, setNumberOfPeople)}
             placeholder="Quantos vão dividir?"
           />
@@ -45,10 +86,36 @@ const Home: React.FC = () => {
       </div>
       <div>
         <label>
+          Pessoas que só comeram:
+          <Input
+            value={foodOnlyPeople}
+            onChange={(e) => handleChange(e, setFoodOnlyPeople)}
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          Pessoas que só beberam:
+          <Input
+            value={drinkOnlyPeople}
+            onChange={(e) => handleChange(e, setDrinkOnlyPeople)}
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          Pessoas que comeram e beberam:
+          <Input
+            value={foodAndDrinkPeople}
+            onChange={(e) => handleChange(e, setFoodAndDrinkPeople)}
+          />
+        </label>
+      </div>
+      <div>
+        <label>
           Gorjeta (%):
-          <input
-            type="number"
-            value={tipPercentage === 0 ? "" : tipPercentage}
+          <Input
+            value={tipPercentage}
             onChange={(e) => handleChange(e, setTipPercentage)}
             placeholder="Porcentagem da gorjeta"
           />
@@ -57,7 +124,15 @@ const Home: React.FC = () => {
       <div>
         <h2>Resultado</h2>
         <p>Valor Total: R$ {calculateTotalWithTip().toFixed(2)}</p>
-        <p>Valor por Pessoa: R$ {calculatePerPersonAmount().toFixed(2)}</p>
+        <p>
+          Valor por Pessoa: R$ {calculateSimplePerPersonAmount().toFixed(2)}
+        </p>
+        <p>Valor para pessoas que só comeram: R$ {foodOnlyTotal.toFixed(2)}</p>
+        <p>Valor para pessoas que só beberam: R$ {drinkOnlyTotal.toFixed(2)}</p>
+        <p>
+          Valor para pessoas que comeram e beberam: R${" "}
+          {calculateFoodAndDrinkTotal.toFixed(2)}
+        </p>
       </div>
     </div>
   );
