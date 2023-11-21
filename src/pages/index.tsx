@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 
 export default function Home() {
-  const [totalBill, setTotalBill] = useState<number>(0);
-  const [numberOfPeople, setNumberOfPeople] = useState<number>(1);
+  const [totalBill, setTotalBill] = useState(0);
+  const [numberOfPeople, setNumberOfPeople] = useState(1);
+  const [tipPercentage, setTipPercentage] = useState(0);
 
   const handleTotalBillChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -18,8 +19,19 @@ export default function Home() {
     setNumberOfPeople(isNaN(value) ? 1 : value);
   };
 
+  const handleTipPercentageChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const value = parseInt(event.target.value, 10);
+    setTipPercentage(isNaN(value) ? 0 : value);
+  };
+
+  const calculateTotalWithTip = () => {
+    return totalBill + (totalBill * tipPercentage) / 100;
+  };
+
   const calculatePerPersonAmount = () => {
-    return numberOfPeople > 1 ? totalBill / numberOfPeople : 0;
+    return numberOfPeople > 1 ? calculateTotalWithTip() / numberOfPeople : 0;
   };
 
   return (
@@ -32,6 +44,7 @@ export default function Home() {
             type="number"
             value={totalBill === 0 ? "" : totalBill}
             onChange={handleTotalBillChange}
+            placeholder="Quanto deu a conta?"
           />
         </label>
       </div>
@@ -42,12 +55,25 @@ export default function Home() {
             type="number"
             value={numberOfPeople === 1 ? "" : numberOfPeople}
             onChange={handleNumberOfPeopleChange}
+            placeholder="Quantos vão dividir?"
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          Gorjeta (%):
+          <input
+            type="number"
+            value={tipPercentage === 0 ? "" : tipPercentage}
+            onChange={handleTipPercentageChange}
+            placeholder="Porcentagem da gorjeta"
           />
         </label>
       </div>
       <div>
         <h2>Resultado</h2>
-        <p>Valor por pessoa: R$ {calculatePerPersonAmount().toFixed(2)}</p>
+        <p>Valor Total: R$ {calculateTotalWithTip().toFixed(2)}</p>
+        <p>Valor por Pessoa: R$ {calculatePerPersonAmount().toFixed(2)}</p>
       </div>
     </div>
   );
