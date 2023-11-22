@@ -32,13 +32,11 @@ const Home: React.FC = () => {
     setter(isNaN(value) ? 0 : value);
   };
 
-  const calculateTotalWithTip = () =>
+  const calculateTotalWithTip =
     foodBill + drinkBill + (foodBill + drinkBill) * (tipPercentage / 100);
 
   const calculateSimplePerPersonAmount = () =>
-    calculateTotalWithTip() / numberOfPeople;
-
-  //fazer um total people para tirar da equação que está se repetindo
+    calculateTotalWithTip / numberOfPeople;
 
   const foodOnlyTotal =
     (foodBill + foodBill * (tipPercentage / 100)) /
@@ -49,7 +47,9 @@ const Home: React.FC = () => {
     (drinkOnlyPeople + foodAndDrinkPeople);
 
   const calculateFoodAndDrinkTotal =
-    foodOnlyTotal + drinkOnlyTotal / foodAndDrinkPeople;
+    (calculateTotalWithTip -
+      (foodOnlyTotal * foodOnlyPeople + drinkOnlyTotal * drinkOnlyPeople)) /
+    foodAndDrinkPeople;
 
   return (
     <div>
@@ -123,7 +123,7 @@ const Home: React.FC = () => {
       </div>
       <div>
         <h2>Resultado</h2>
-        <p>Valor Total: R$ {calculateTotalWithTip().toFixed(2)}</p>
+        <p>Valor Total: R$ {calculateTotalWithTip.toFixed(2)}</p>
         <p>
           Valor por Pessoa: R$ {calculateSimplePerPersonAmount().toFixed(2)}
         </p>
