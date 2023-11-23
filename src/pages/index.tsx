@@ -9,7 +9,7 @@ interface InputProps {
 const Input: React.FC<InputProps> = ({ value, onChange, placeholder }) => (
   <input
     type="number"
-    value={value === 0 ? "" : value}
+    value={value === null || value === undefined ? "" : value}
     onChange={onChange}
     placeholder={placeholder}
   />
@@ -18,7 +18,7 @@ const Input: React.FC<InputProps> = ({ value, onChange, placeholder }) => (
 const Home: React.FC = () => {
   const [foodBill, setFoodBill] = useState<number>(0);
   const [drinkBill, setDrinkBill] = useState<number>(0);
-  const [numberOfPeople, setNumberOfPeople] = useState<number>(1);
+  const [numberOfPeople, setNumberOfPeople] = useState<number>(0);
   const [foodOnlyPeople, setFoodOnlyPeople] = useState<number>(0);
   const [drinkOnlyPeople, setDrinkOnlyPeople] = useState<number>(0);
   const [foodAndDrinkPeople, setFoodAndDrinkPeople] = useState<number>(0);
@@ -35,15 +35,20 @@ const Home: React.FC = () => {
   const calculateTotalWithTip =
     foodBill + drinkBill + (foodBill + drinkBill) * (tipPercentage / 100);
 
-  const simplePerPersonAmount = calculateTotalWithTip / numberOfPeople;
+  const calculateSimplePerPersonAmount = () =>
+    calculateTotalWithTip / numberOfPeople;
 
   const foodOnlyTotal =
-    (foodBill + foodBill * (tipPercentage / 100)) /
-    (foodOnlyPeople + foodAndDrinkPeople);
+    foodOnlyPeople !== 0
+      ? (foodBill + foodBill * (tipPercentage / 100)) /
+        (foodOnlyPeople + foodAndDrinkPeople)
+      : 0;
 
   const drinkOnlyTotal =
-    (drinkBill + drinkBill * (tipPercentage / 100)) /
-    (drinkOnlyPeople + foodAndDrinkPeople);
+    drinkOnlyPeople !== 0
+      ? (drinkBill + drinkBill * (tipPercentage / 100)) /
+        (drinkOnlyPeople + foodAndDrinkPeople)
+      : 0;
 
   const calculateFoodAndDrinkTotal =
     (calculateTotalWithTip -
@@ -124,24 +129,13 @@ const Home: React.FC = () => {
         <h2>Resultado</h2>
         <p>Valor Total: R$ {calculateTotalWithTip.toFixed(2)}</p>
         <p>
-          Valor por Pessoa: R${" "}
-          {isNaN(simplePerPersonAmount)
-            ? "0.00"
-            : simplePerPersonAmount.toFixed(2)}
+          Valor por Pessoa: R$ {calculateSimplePerPersonAmount().toFixed(2)}
         </p>
-        <p>
-          Valor para pessoas que só comeram: R${" "}
-          {isNaN(foodOnlyTotal) ? "0.00" : foodOnlyTotal.toFixed(2)}
-        </p>
-        <p>
-          Valor para pessoas que só beberam: R${" "}
-          {isNaN(drinkOnlyTotal) ? "0.00" : drinkOnlyTotal.toFixed(2)}
-        </p>
+        <p>Valor para pessoas que só comeram: R$ {foodOnlyTotal.toFixed(2)}</p>
+        <p>Valor para pessoas que só beberam: R$ {drinkOnlyTotal.toFixed(2)}</p>
         <p>
           Valor para pessoas que comeram e beberam: R${" "}
-          {isNaN(calculateFoodAndDrinkTotal)
-            ? "0.00"
-            : calculateFoodAndDrinkTotal.toFixed(2)}
+          {calculateFoodAndDrinkTotal.toFixed(2)}
         </p>
       </div>
     </div>
