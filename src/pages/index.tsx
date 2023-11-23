@@ -9,6 +9,7 @@ interface InputProps {
 const Input: React.FC<InputProps> = ({ value, onChange, placeholder }) => (
   <input
     type="number"
+    step=",01"
     value={value === null || value === undefined ? "" : value}
     onChange={onChange}
     placeholder={placeholder}
@@ -16,13 +17,15 @@ const Input: React.FC<InputProps> = ({ value, onChange, placeholder }) => (
 );
 
 const Home: React.FC = () => {
-  const [foodBill, setFoodBill] = useState<number>(0);
-  const [drinkBill, setDrinkBill] = useState<number>(0);
-  const [numberOfPeople, setNumberOfPeople] = useState<number>(0);
-  const [foodOnlyPeople, setFoodOnlyPeople] = useState<number>(0);
-  const [drinkOnlyPeople, setDrinkOnlyPeople] = useState<number>(0);
-  const [foodAndDrinkPeople, setFoodAndDrinkPeople] = useState<number>(0);
-  const [tipPercentage, setTipPercentage] = useState<number>(0);
+  const [foodBill, setFoodBill] = useState(0);
+  const [drinkBill, setDrinkBill] = useState(0);
+  const [numberOfPeople, setNumberOfPeople] = useState(0);
+  const [foodOnlyPeople, setFoodOnlyPeople] = useState(0);
+  const [drinkOnlyPeople, setDrinkOnlyPeople] = useState(0);
+  const [foodAndDrinkPeople, setFoodAndDrinkPeople] = useState(0);
+  const [tipPercentage, setTipPercentage] = useState(0);
+  // const [apartBill, setApartBill] = useState(0);
+  const [showResults, setShowResults] = useState(false);
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -51,9 +54,11 @@ const Home: React.FC = () => {
       : 0;
 
   const calculateFoodAndDrinkTotal =
-    (calculateTotalWithTip -
-      (foodOnlyTotal * foodOnlyPeople + drinkOnlyTotal * drinkOnlyPeople)) /
-    foodAndDrinkPeople;
+    foodAndDrinkPeople !== 0
+      ? (calculateTotalWithTip -
+          (foodOnlyTotal * foodOnlyPeople + drinkOnlyTotal * drinkOnlyPeople)) /
+        foodAndDrinkPeople
+      : 0;
 
   return (
     <div>
@@ -64,7 +69,6 @@ const Home: React.FC = () => {
           <Input
             value={foodBill}
             onChange={(e) => handleChange(e, setFoodBill)}
-            placeholder="Valor da comida"
           />
         </label>
       </div>
@@ -74,7 +78,6 @@ const Home: React.FC = () => {
           <Input
             value={drinkBill}
             onChange={(e) => handleChange(e, setDrinkBill)}
-            placeholder="Valor da bebida"
           />
         </label>
       </div>
@@ -84,7 +87,6 @@ const Home: React.FC = () => {
           <Input
             value={numberOfPeople}
             onChange={(e) => handleChange(e, setNumberOfPeople)}
-            placeholder="Quantos vão dividir?"
           />
         </label>
       </div>
@@ -115,29 +117,44 @@ const Home: React.FC = () => {
           />
         </label>
       </div>
+      {/* <div>
+        <label>
+          Pagar a parte:
+          <Input
+            value={apart}
+            onChange={(e) => handleChange(e, setApartBill)}
+          />
+        </label>
+      </div> */}
       <div>
         <label>
           Gorjeta (%):
           <Input
             value={tipPercentage}
             onChange={(e) => handleChange(e, setTipPercentage)}
-            placeholder="Porcentagem da gorjeta"
           />
         </label>
+        <button onClick={() => setShowResults(true)}>Mostrar Resultados</button>
       </div>
-      <div>
-        <h2>Resultado</h2>
-        <p>Valor Total: R$ {calculateTotalWithTip.toFixed(2)}</p>
-        <p>
-          Valor por Pessoa: R$ {calculateSimplePerPersonAmount().toFixed(2)}
-        </p>
-        <p>Valor para pessoas que só comeram: R$ {foodOnlyTotal.toFixed(2)}</p>
-        <p>Valor para pessoas que só beberam: R$ {drinkOnlyTotal.toFixed(2)}</p>
-        <p>
-          Valor para pessoas que comeram e beberam: R${" "}
-          {calculateFoodAndDrinkTotal.toFixed(2)}
-        </p>
-      </div>
+      {showResults && (
+        <div>
+          <h2>Resultado</h2>
+          <p>Valor Total: R$ {calculateTotalWithTip.toFixed(2)}</p>
+          <p>
+            Valor por Pessoa: R$ {calculateSimplePerPersonAmount().toFixed(2)}
+          </p>
+          <p>
+            Valor para pessoas que só comeram: R$ {foodOnlyTotal.toFixed(2)}
+          </p>
+          <p>
+            Valor para pessoas que só beberam: R$ {drinkOnlyTotal.toFixed(2)}
+          </p>
+          <p>
+            Valor para pessoas que comeram e beberam: R${" "}
+            {calculateFoodAndDrinkTotal.toFixed(2)}
+          </p>
+        </div>
+      )}
     </div>
   );
 };
