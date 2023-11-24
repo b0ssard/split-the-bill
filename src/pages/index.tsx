@@ -27,6 +27,17 @@ const Home: React.FC = () => {
   const [apartBill, setApartBill] = useState(0);
   const [showResults, setShowResults] = useState(false);
 
+  const handleTipButtonClick = (percentage: number) => {
+    setTipPercentage(percentage);
+  };
+
+  const handleCustomTipChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const customTip = parseFloat(event.target.value);
+    setTipPercentage(isNaN(customTip) ? 0 : customTip);
+  };
+
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     setter: React.Dispatch<React.SetStateAction<number>>,
@@ -127,14 +138,20 @@ const Home: React.FC = () => {
         </label>
       </div>
       <div>
-        <label>
-          Gorjeta (%):
-          <Input
-            value={tipPercentage}
-            onChange={(e) => handleChange(e, setTipPercentage)}
-          />
-        </label>
-        <button onClick={() => setShowResults(true)}>Mostrar Resultados</button>
+        <div>
+          <button onClick={() => handleTipButtonClick(5)}>Gorjeta 5%</button>
+          <button onClick={() => handleTipButtonClick(10)}>Gorjeta 10%</button>
+          <button onClick={() => handleTipButtonClick(15)}>Gorjeta 15%</button>
+        </div>
+        <div>
+          <label>
+            Gorjeta Personalizada:
+            <Input value={tipPercentage} onChange={handleCustomTipChange} />
+          </label>
+        </div>
+        <button onClick={() => setShowResults(!showResults)}>
+          {showResults ? "Esconder Resultados" : "Mostrar Resultados"}
+        </button>
       </div>
       {showResults && (
         <div>
