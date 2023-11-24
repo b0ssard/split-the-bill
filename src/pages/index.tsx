@@ -24,7 +24,7 @@ const Home: React.FC = () => {
   const [drinkOnlyPeople, setDrinkOnlyPeople] = useState(0);
   const [foodAndDrinkPeople, setFoodAndDrinkPeople] = useState(0);
   const [tipPercentage, setTipPercentage] = useState(0);
-  // const [apartBill, setApartBill] = useState(0);
+  const [apartBill, setApartBill] = useState(0);
   const [showResults, setShowResults] = useState(false);
 
   const handleChange = (
@@ -38,8 +38,7 @@ const Home: React.FC = () => {
   const calculateTotalWithTip =
     foodBill + drinkBill + (foodBill + drinkBill) * (tipPercentage / 100);
 
-  const calculateSimplePerPersonAmount = () =>
-    calculateTotalWithTip / numberOfPeople;
+  const calculateSimplePerPersonAmount = calculateTotalWithTip / numberOfPeople;
 
   const foodOnlyTotal =
     foodOnlyPeople !== 0
@@ -117,15 +116,15 @@ const Home: React.FC = () => {
           />
         </label>
       </div>
-      {/* <div>
+      <div>
         <label>
           Pagar a parte:
           <Input
-            value={apart}
+            value={apartBill}
             onChange={(e) => handleChange(e, setApartBill)}
           />
         </label>
-      </div> */}
+      </div>
       <div>
         <label>
           Gorjeta (%):
@@ -139,19 +138,24 @@ const Home: React.FC = () => {
       {showResults && (
         <div>
           <h2>Resultado</h2>
-          <p>Valor Total: R$ {calculateTotalWithTip.toFixed(2)}</p>
           <p>
-            Valor por Pessoa: R$ {calculateSimplePerPersonAmount().toFixed(2)}
+            Valor Total: R$ ${(calculateTotalWithTip - apartBill).toFixed(2)}
           </p>
           <p>
-            Valor para pessoas que só comeram: R$ {foodOnlyTotal.toFixed(2)}
+            Valor por Pessoa: R${" "}
+            {(calculateSimplePerPersonAmount - apartBill).toFixed(2)}
           </p>
           <p>
-            Valor para pessoas que só beberam: R$ {drinkOnlyTotal.toFixed(2)}
+            Valor para pessoas que só comeram: R${" "}
+            {(foodOnlyTotal - apartBill).toFixed(2)}
+          </p>
+          <p>
+            Valor para pessoas que só beberam: R${" "}
+            {(drinkOnlyTotal - apartBill).toFixed(2)}
           </p>
           <p>
             Valor para pessoas que comeram e beberam: R${" "}
-            {calculateFoodAndDrinkTotal.toFixed(2)}
+            {(calculateFoodAndDrinkTotal - apartBill).toFixed(2)}
           </p>
         </div>
       )}
