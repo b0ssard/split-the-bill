@@ -38,7 +38,8 @@ const Home: React.FC = () => {
   const calculateTotalWithTip =
     foodBill + drinkBill + (foodBill + drinkBill) * (tipPercentage / 100);
 
-  const calculateSimplePerPersonAmount = calculateTotalWithTip / numberOfPeople;
+  const calculateSimplePerPersonAmount =
+    numberOfPeople !== 0 ? calculateTotalWithTip / numberOfPeople : 0;
 
   const foodOnlyTotal =
     foodOnlyPeople !== 0
@@ -138,9 +139,7 @@ const Home: React.FC = () => {
       {showResults && (
         <div>
           <h2>Resultado</h2>
-          <p>
-            Valor Total: R$ ${(calculateTotalWithTip - apartBill).toFixed(2)}
-          </p>
+          <p>Valor Total: R${(calculateTotalWithTip - apartBill).toFixed(2)}</p>
           <p>
             Valor por Pessoa: R${" "}
             {(calculateSimplePerPersonAmount - apartBill).toFixed(2)}
