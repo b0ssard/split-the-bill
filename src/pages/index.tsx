@@ -157,6 +157,7 @@ const Home: React.FC = () => {
         <div>
           <h2>Resultado</h2>
           <p>Valor Total: R${(calculateTotalWithTip - apartBill).toFixed(2)}</p>
+          <p>Valor A Parte: R${apartBill.toFixed(2)}</p>
           <p>
             Valor por Pessoa: R${" "}
             {(calculateSimplePerPersonAmount - apartBill).toFixed(2)}
