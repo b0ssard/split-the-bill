@@ -9,7 +9,7 @@ interface InputProps {
 const Input: React.FC<InputProps> = ({ value, onChange, placeholder }) => (
   <input
     type="number"
-    step=",01"
+    step=".01"
     value={value === null || value === undefined ? "" : value}
     onChange={onChange}
     placeholder={placeholder}
@@ -25,7 +25,7 @@ const Home: React.FC = () => {
   const [foodAndDrinkPeople, setFoodAndDrinkPeople] = useState(0);
   const [tipPercentage, setTipPercentage] = useState(0);
   const [apartBill, setApartBill] = useState(0);
-  const [showResults, setShowResults] = useState(false);
+  const [selectedCurrency, setSelectedCurrency] = useState("BRL");
 
   const handleTipButtonClick = (percentage: number) => {
     setTipPercentage(percentage);
@@ -44,6 +44,12 @@ const Home: React.FC = () => {
   ) => {
     const value = parseFloat(event.target.value);
     setter(isNaN(value) ? 0 : value);
+  };
+
+  const handleCurrencyChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setSelectedCurrency(event.target.value);
   };
 
   const calculateTotalWithTip =
@@ -103,6 +109,15 @@ const Home: React.FC = () => {
       </div>
       <div>
         <label>
+          Moeda:
+          <select value={selectedCurrency} onChange={handleCurrencyChange}>
+            <option value="BRL">BRL - Real</option>
+            <option value="DOL">DOL - Dolar</option>
+          </select>
+        </label>
+      </div>
+      <div>
+        <label>
           Pessoas que só comeram:
           <Input
             value={foodOnlyPeople}
@@ -149,33 +164,33 @@ const Home: React.FC = () => {
             <Input value={tipPercentage} onChange={handleCustomTipChange} />
           </label>
         </div>
-        <button onClick={() => setShowResults(!showResults)}>
-          {showResults ? "Esconder Resultados" : "Mostrar Resultados"}
-        </button>
       </div>
-      {showResults && (
-        <div>
-          <h2>Resultado</h2>
-          <p>Valor Total: R${(calculateTotalWithTip - apartBill).toFixed(2)}</p>
-          <p>Valor A Parte: R${apartBill.toFixed(2)}</p>
-          <p>
-            Valor por Pessoa: R${" "}
-            {(calculateSimplePerPersonAmount - apartBill).toFixed(2)}
-          </p>
-          <p>
-            Valor para pessoas que só comeram: R${" "}
-            {(foodOnlyTotal - apartBill).toFixed(2)}
-          </p>
-          <p>
-            Valor para pessoas que só beberam: R${" "}
-            {(drinkOnlyTotal - apartBill).toFixed(2)}
-          </p>
-          <p>
-            Valor para pessoas que comeram e beberam: R${" "}
-            {(calculateFoodAndDrinkTotal - apartBill).toFixed(2)}
-          </p>
-        </div>
-      )}
+      <div>
+        <h2>Resultado</h2>
+        <p>
+          Valor Total: {selectedCurrency}{" "}
+          {(calculateTotalWithTip - apartBill).toFixed(2)}
+        </p>
+        <p>
+          Valor A Parte: {selectedCurrency} {apartBill.toFixed(2)}
+        </p>
+        <p>
+          Valor por Pessoa: {selectedCurrency}{" "}
+          {(calculateSimplePerPersonAmount - apartBill).toFixed(2)}
+        </p>
+        <p>
+          Valor para pessoas que só comeram: {selectedCurrency}{" "}
+          {(foodOnlyTotal - apartBill).toFixed(2)}
+        </p>
+        <p>
+          Valor para pessoas que só beberam: {selectedCurrency}{" "}
+          {(drinkOnlyTotal - apartBill).toFixed(2)}
+        </p>
+        <p>
+          Valor para pessoas que comeram e beberam: {selectedCurrency}{" "}
+          {(calculateFoodAndDrinkTotal - apartBill).toFixed(2)}
+        </p>
+      </div>
     </div>
   );
 };
