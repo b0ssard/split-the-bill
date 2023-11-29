@@ -1,4 +1,11 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {};
+import dotenv from "dotenv";
 
-module.exports = nextConfig;
+dotenv.config();
+
+const nextConfig = {
+  env: {
+    NEXT_PUBLIC_API_KEY: process.env.API_KEY,
+  },
+};
+
+export default nextConfig;

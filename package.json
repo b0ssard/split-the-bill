@@ -10,6 +10,7 @@
     "lint:fix": "eslint src --fix"
   },
   "dependencies": {
+    "@types/dotenv": "^8.2.0",
     "dotenv": "^16.3.1",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.1",
