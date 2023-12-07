@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { getExchangeRates, ApiResponse } from "@/app/api";
 
 interface InputProps {
   value: number;
@@ -26,6 +27,18 @@ const Home: React.FC = () => {
   const [tipPercentage, setTipPercentage] = useState(0);
   const [apartBill, setApartBill] = useState(0);
   const [selectedCurrency, setSelectedCurrency] = useState("BRL");
+  const [exchangeRates, setExchangeRates] = useState<ApiResponse | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const rates = await getExchangeRates();
+      if (rates) {
+        setExchangeRates(rates);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleTipButtonClick = (percentage: number) => {
     setTipPercentage(percentage);
@@ -190,6 +203,16 @@ const Home: React.FC = () => {
           Valor para pessoas que comeram e beberam: {selectedCurrency}{" "}
           {(calculateFoodAndDrinkTotal - apartBill).toFixed(2)}
         </p>
+      </div>
+      <div>
+        <h1>Exchange Rate App</h1>
+        {exchangeRates && (
+          <div>
+            <p>Real to USD: {exchangeRates.conversion_rates.USD}</p>
+            <p>Real to EUR: {exchangeRates.conversion_rates.EUR}</p>
+            <p>Real to CAD: {exchangeRates.conversion_rates.CAD}</p>
+          </div>
+        )}
       </div>
     </div>
   );

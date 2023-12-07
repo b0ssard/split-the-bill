@@ -8,9 +8,8 @@ export interface ApiResponse {
   };
 }
 
-const API_KEY = process.env.NEXT_PUBLIC_API_KEY as string;
+const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 const BASE_CURRENCY = "BRL";
-
 const apiUrl = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/${BASE_CURRENCY}`;
 
 export const getExchangeRates = async (): Promise<ApiResponse | null> => {
