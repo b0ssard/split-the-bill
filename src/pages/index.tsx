@@ -1,21 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getExchangeRates, ApiResponse } from "@/app/api";
-
-interface InputProps {
-  value: number;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  placeholder?: string;
-}
-
-const Input: React.FC<InputProps> = ({ value, onChange, placeholder }) => (
-  <input
-    type="number"
-    step=".01"
-    value={value === null || value === undefined ? "" : value}
-    onChange={onChange}
-    placeholder={placeholder}
-  />
-);
+import Input from "@/app/components/Input";
 
 const Home: React.FC = () => {
   const [foodBill, setFoodBill] = useState(0);
@@ -40,10 +25,6 @@ const Home: React.FC = () => {
     fetchData();
   }, []);
 
-  const handleTipButtonClick = (percentage: number) => {
-    setTipPercentage(percentage);
-  };
-
   const handleCustomTipChange = (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
@@ -64,6 +45,51 @@ const Home: React.FC = () => {
   ) => {
     setSelectedCurrency(event.target.value);
   };
+
+  const handleTipButtonClick = (percentage: number) => {
+    setTipPercentage(percentage);
+  };
+
+  const generateInputConfig = (
+    label: string,
+    value: number,
+    setter: React.Dispatch<React.SetStateAction<number>>,
+  ): {
+    label: string;
+    value: number;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  } => ({
+    label,
+    value,
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+      handleChange(e, setter),
+  });
+
+  const inputConfigs = [
+    generateInputConfig("Comida: ", foodBill, setFoodBill),
+    generateInputConfig("Bebida: ", drinkBill, setDrinkBill),
+    generateInputConfig(
+      "Número de Pessoas:",
+      numberOfPeople,
+      setNumberOfPeople,
+    ),
+    generateInputConfig(
+      "Pessoas que só comeram:",
+      foodOnlyPeople,
+      setFoodOnlyPeople,
+    ),
+    generateInputConfig(
+      "Pessoas que só beberam:",
+      drinkOnlyPeople,
+      setDrinkOnlyPeople,
+    ),
+    generateInputConfig(
+      "Pessoas que comeram e beberam:",
+      foodAndDrinkPeople,
+      setFoodAndDrinkPeople,
+    ),
+    generateInputConfig("Pagar a parte:", apartBill, setApartBill),
+  ];
 
   const calculateTotalWithTip =
     foodBill + drinkBill + (foodBill + drinkBill) * (tipPercentage / 100);
@@ -93,117 +119,63 @@ const Home: React.FC = () => {
   return (
     <div>
       <h1>Dividir Conta</h1>
+      {inputConfigs.map((config, index) => (
+        <Input key={index} {...config} />
+      ))}
       <div>
-        <label>
-          Comida:
-          <Input
-            value={foodBill}
-            onChange={(e) => handleChange(e, setFoodBill)}
-          />
-        </label>
+        <Input
+          label="Gorjeta Personalizada:"
+          value={tipPercentage}
+          onChange={handleCustomTipChange}
+        />
       </div>
       <div>
-        <label>
-          Bebida:
-          <Input
-            value={drinkBill}
-            onChange={(e) => handleChange(e, setDrinkBill)}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Número de Pessoas:
-          <Input
-            value={numberOfPeople}
-            onChange={(e) => handleChange(e, setNumberOfPeople)}
-          />
-        </label>
+        <button onClick={() => handleTipButtonClick(5)}>Gorjeta 5%</button>
+        <button onClick={() => handleTipButtonClick(10)}>Gorjeta 10%</button>
+        <button onClick={() => handleTipButtonClick(15)}>Gorjeta 15%</button>
       </div>
       <div>
         <label>
           Moeda:
           <select value={selectedCurrency} onChange={handleCurrencyChange}>
-            <option value="BRL">BRL - Real</option>
-            <option value="DOL">DOL - Dolar</option>
+            <option value="DOL">USD - Dólar</option>
+            <option value="DOL">EUR - Euro</option>
+            <option value="DOL">CAD - Dólar Canadense</option>
           </select>
         </label>
       </div>
-      <div>
-        <label>
-          Pessoas que só comeram:
-          <Input
-            value={foodOnlyPeople}
-            onChange={(e) => handleChange(e, setFoodOnlyPeople)}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Pessoas que só beberam:
-          <Input
-            value={drinkOnlyPeople}
-            onChange={(e) => handleChange(e, setDrinkOnlyPeople)}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Pessoas que comeram e beberam:
-          <Input
-            value={foodAndDrinkPeople}
-            onChange={(e) => handleChange(e, setFoodAndDrinkPeople)}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Pagar a parte:
-          <Input
-            value={apartBill}
-            onChange={(e) => handleChange(e, setApartBill)}
-          />
-        </label>
-      </div>
-      <div>
+      {exchangeRates && (
         <div>
-          <button onClick={() => handleTipButtonClick(5)}>Gorjeta 5%</button>
-          <button onClick={() => handleTipButtonClick(10)}>Gorjeta 10%</button>
-          <button onClick={() => handleTipButtonClick(15)}>Gorjeta 15%</button>
+          <h2>Resultado</h2>
+          <p>
+            Valor Total: {selectedCurrency}{" "}
+            {(calculateTotalWithTip - apartBill).toFixed(2)} ou USD{" "}
+            {(
+              (calculateTotalWithTip - apartBill) *
+              exchangeRates.conversion_rates.USD
+            ).toFixed(2)}
+          </p>
+          <p>
+            Valor A Parte: {selectedCurrency} {apartBill.toFixed(2)}
+          </p>
+          <p>
+            Valor por Pessoa: {selectedCurrency}{" "}
+            {(calculateSimplePerPersonAmount - apartBill).toFixed(2)}
+          </p>
+          <p>
+            Valor para pessoas que só comeram: {selectedCurrency}{" "}
+            {(foodOnlyTotal - apartBill).toFixed(2)}
+          </p>
+          <p>
+            Valor para pessoas que só beberam: {selectedCurrency}{" "}
+            {(drinkOnlyTotal - apartBill).toFixed(2)}
+          </p>
+          <p>
+            Valor para pessoas que comeram e beberam: {selectedCurrency}{" "}
+            {(calculateFoodAndDrinkTotal - apartBill).toFixed(2)}
+          </p>
         </div>
-        <div>
-          <label>
-            Gorjeta Personalizada:
-            <Input value={tipPercentage} onChange={handleCustomTipChange} />
-          </label>
-        </div>
-      </div>
-      <div>
-        <h2>Resultado</h2>
-        <p>
-          Valor Total: {selectedCurrency}{" "}
-          {(calculateTotalWithTip - apartBill).toFixed(2)}
-        </p>
-        <p>
-          Valor A Parte: {selectedCurrency} {apartBill.toFixed(2)}
-        </p>
-        <p>
-          Valor por Pessoa: {selectedCurrency}{" "}
-          {(calculateSimplePerPersonAmount - apartBill).toFixed(2)}
-        </p>
-        <p>
-          Valor para pessoas que só comeram: {selectedCurrency}{" "}
-          {(foodOnlyTotal - apartBill).toFixed(2)}
-        </p>
-        <p>
-          Valor para pessoas que só beberam: {selectedCurrency}{" "}
-          {(drinkOnlyTotal - apartBill).toFixed(2)}
-        </p>
-        <p>
-          Valor para pessoas que comeram e beberam: {selectedCurrency}{" "}
-          {(calculateFoodAndDrinkTotal - apartBill).toFixed(2)}
-        </p>
-      </div>
+      )}
       <div>
         <h1>Exchange Rate App</h1>
         {exchangeRates && (
