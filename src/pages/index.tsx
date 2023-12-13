@@ -5,7 +5,6 @@ import Input, { generateInputConfig } from "@/app/components/Input";
 const Home: React.FC = () => {
   const [foodBill, setFoodBill] = useState(0);
   const [drinkBill, setDrinkBill] = useState(0);
-  const [numberOfPeople, setNumberOfPeople] = useState(0);
   const [foodOnlyPeople, setFoodOnlyPeople] = useState(0);
   const [drinkOnlyPeople, setDrinkOnlyPeople] = useState(0);
   const [foodAndDrinkPeople, setFoodAndDrinkPeople] = useState(0);
@@ -29,9 +28,9 @@ const Home: React.FC = () => {
     generateInputConfig("Comida: ", foodBill, setFoodBill),
     generateInputConfig("Bebida: ", drinkBill, setDrinkBill),
     generateInputConfig(
-      "Número de Pessoas:",
-      numberOfPeople,
-      setNumberOfPeople,
+      "Pessoas que comeram e beberam:",
+      foodAndDrinkPeople,
+      setFoodAndDrinkPeople,
     ),
     generateInputConfig(
       "Pessoas que só comeram:",
@@ -42,11 +41,6 @@ const Home: React.FC = () => {
       "Pessoas que só beberam:",
       drinkOnlyPeople,
       setDrinkOnlyPeople,
-    ),
-    generateInputConfig(
-      "Pessoas que comeram e beberam:",
-      foodAndDrinkPeople,
-      setFoodAndDrinkPeople,
     ),
     generateInputConfig("Pagar a parte:", apartBill, setApartBill),
   ];
@@ -69,44 +63,29 @@ const Home: React.FC = () => {
   };
 
   const calculateTotalWithTip =
-    foodBill + drinkBill + (foodBill + drinkBill) * (tipPercentage / 100);
-  const calculateSimplePerPersonAmount =
-    numberOfPeople !== 0 ? calculateTotalWithTip / numberOfPeople : 0;
+    foodBill +
+    drinkBill +
+    (foodBill + drinkBill) * (tipPercentage / 100) -
+    apartBill;
+
   const foodOnlyTotal =
     foodOnlyPeople !== 0
       ? (foodBill + foodBill * (tipPercentage / 100)) /
         (foodOnlyPeople + foodAndDrinkPeople)
       : 0;
+
   const drinkOnlyTotal =
     drinkOnlyPeople !== 0
       ? (drinkBill + drinkBill * (tipPercentage / 100)) /
         (drinkOnlyPeople + foodAndDrinkPeople)
       : 0;
+
   const calculateFoodAndDrinkTotal =
     foodAndDrinkPeople !== 0
       ? (calculateTotalWithTip -
           (foodOnlyTotal * foodOnlyPeople + drinkOnlyTotal * drinkOnlyPeople)) /
         foodAndDrinkPeople
       : 0;
-
-  const calculate = (type: string) => {
-    switch (type) {
-      case "valortotal":
-        return calculateTotalWithTip - apartBill;
-      case "valoraparte":
-        return apartBill;
-      case "valorporpessoa":
-        return calculateSimplePerPersonAmount - apartBill;
-      case "valorpessoascomeram":
-        return foodOnlyTotal - apartBill;
-      case "valorpessoasbeberam":
-        return drinkOnlyTotal - apartBill;
-      case "valorpessoascomerambeberam":
-        return calculateFoodAndDrinkTotal - apartBill;
-      default:
-        return 0;
-    }
-  };
 
   return (
     <div>
@@ -122,17 +101,28 @@ const Home: React.FC = () => {
         />
       </div>
       <div>
-        <button onClick={() => handleTipButtonClick(5)}>Gorjeta 5%</button>
-        <button onClick={() => handleTipButtonClick(10)}>Gorjeta 10%</button>
-        <button onClick={() => handleTipButtonClick(15)}>Gorjeta 15%</button>
+        {[5, 10, 15].map((tipPercentage) => (
+          <button
+            key={tipPercentage}
+            onClick={() => handleTipButtonClick(tipPercentage)}
+          >
+            Gorjeta {tipPercentage}%
+          </button>
+        ))}
       </div>
       <div>
         <label>
           Moeda:
           <select value={selectedCurrency} onChange={handleCurrencyChange}>
-            <option value="DOL">USD - Dólar</option>
-            <option value="EUR">EUR - Euro</option>
-            <option value="CAD">CAD - Dólar Canadense</option>
+            {[
+              { value: "USD", label: "USD - Dólar" },
+              { value: "EUR", label: "EUR - Euro" },
+              { value: "CAD", label: "CAD - Dólar Canadense" },
+            ].map((currency) => (
+              <option key={currency.value} value={currency.value}>
+                {currency.label}
+              </option>
+            ))}
           </select>
         </label>
       </div>
@@ -140,32 +130,24 @@ const Home: React.FC = () => {
         <div>
           <h2>Resultado</h2>
           {[
-            "Valor total",
-            "Valor a parte",
-            "Valor por pessoa",
-            "Valor para pessoas que só comeram",
-            "Valor para pessoas que só beberam",
-            "Valor para pessoas que comeram e beberam",
-          ].map((label, index) => (
-            <p key={index}>
-              {label}: {selectedCurrency} {calculate(label)?.toFixed(2)} ou USD{" "}
-              {(calculate(label) * exchangeRates.conversion_rates.USD).toFixed(
-                2,
-              )}
+            ["Valor Total", calculateTotalWithTip],
+            ["Valor A Parte", apartBill],
+            [
+              "Valor para pessoas que comeram e beberam",
+              calculateFoodAndDrinkTotal,
+            ],
+            ["Valor para pessoas que só comeram", foodOnlyTotal],
+            ["Valor para pessoas que só beberam", drinkOnlyTotal],
+          ].map(([label, value]) => (
+            <p key={label}>
+              {label}: R$ {Number(value).toFixed(2)} ou {selectedCurrency}{" "}
+              {(
+                Number(value) * exchangeRates.conversion_rates[selectedCurrency]
+              ).toFixed(2)}
             </p>
           ))}
         </div>
       )}
-      <div>
-        <h1>Exchange Rate App</h1>
-        {exchangeRates && (
-          <div>
-            <p>Real to USD: {exchangeRates.conversion_rates.USD}</p>
-            <p>Real to EUR: {exchangeRates.conversion_rates.EUR}</p>
-            <p>Real to CAD: {exchangeRates.conversion_rates.CAD}</p>
-          </div>
-        )}
-      </div>
     </div>
   );
 };

@@ -5,6 +5,7 @@ export interface ApiResponse {
     USD: number;
     EUR: number;
     CAD: number;
+    [key: string]: number;
   };
 }
 
