@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getExchangeRates, ApiResponse } from "@/app/api";
-import Input from "@/app/components/Input";
+import Input, { generateInputConfig } from "@/app/components/Input";
 
 const Home: React.FC = () => {
   const [foodBill, setFoodBill] = useState(0);
@@ -24,46 +24,6 @@ const Home: React.FC = () => {
 
     fetchData();
   }, []);
-
-  const handleCustomTipChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const customTip = parseFloat(event.target.value);
-    setTipPercentage(isNaN(customTip) ? 0 : customTip);
-  };
-
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    setter: React.Dispatch<React.SetStateAction<number>>,
-  ) => {
-    const value = parseFloat(event.target.value);
-    setter(isNaN(value) ? 0 : value);
-  };
-
-  const handleCurrencyChange = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
-    setSelectedCurrency(event.target.value);
-  };
-
-  const handleTipButtonClick = (percentage: number) => {
-    setTipPercentage(percentage);
-  };
-
-  const generateInputConfig = (
-    label: string,
-    value: number,
-    setter: React.Dispatch<React.SetStateAction<number>>,
-  ): {
-    label: string;
-    value: number;
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  } => ({
-    label,
-    value,
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-      handleChange(e, setter),
-  });
 
   const inputConfigs = [
     generateInputConfig("Comida: ", foodBill, setFoodBill),
@@ -91,30 +51,62 @@ const Home: React.FC = () => {
     generateInputConfig("Pagar a parte:", apartBill, setApartBill),
   ];
 
+  const handleCustomTipChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const customTip = parseFloat(event.target.value);
+    setTipPercentage(isNaN(customTip) ? 0 : customTip);
+  };
+
+  const handleCurrencyChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    setSelectedCurrency(event.target.value);
+  };
+
+  const handleTipButtonClick = (percentage: number) => {
+    setTipPercentage(percentage);
+  };
+
   const calculateTotalWithTip =
     foodBill + drinkBill + (foodBill + drinkBill) * (tipPercentage / 100);
-
   const calculateSimplePerPersonAmount =
     numberOfPeople !== 0 ? calculateTotalWithTip / numberOfPeople : 0;
-
   const foodOnlyTotal =
     foodOnlyPeople !== 0
       ? (foodBill + foodBill * (tipPercentage / 100)) /
         (foodOnlyPeople + foodAndDrinkPeople)
       : 0;
-
   const drinkOnlyTotal =
     drinkOnlyPeople !== 0
       ? (drinkBill + drinkBill * (tipPercentage / 100)) /
         (drinkOnlyPeople + foodAndDrinkPeople)
       : 0;
-
   const calculateFoodAndDrinkTotal =
     foodAndDrinkPeople !== 0
       ? (calculateTotalWithTip -
           (foodOnlyTotal * foodOnlyPeople + drinkOnlyTotal * drinkOnlyPeople)) /
         foodAndDrinkPeople
       : 0;
+
+  const calculate = (type: string) => {
+    switch (type) {
+      case "valortotal":
+        return calculateTotalWithTip - apartBill;
+      case "valoraparte":
+        return apartBill;
+      case "valorporpessoa":
+        return calculateSimplePerPersonAmount - apartBill;
+      case "valorpessoascomeram":
+        return foodOnlyTotal - apartBill;
+      case "valorpessoasbeberam":
+        return drinkOnlyTotal - apartBill;
+      case "valorpessoascomerambeberam":
+        return calculateFoodAndDrinkTotal - apartBill;
+      default:
+        return 0;
+    }
+  };
 
   return (
     <div>
@@ -139,41 +131,29 @@ const Home: React.FC = () => {
           Moeda:
           <select value={selectedCurrency} onChange={handleCurrencyChange}>
             <option value="DOL">USD - Dólar</option>
-            <option value="DOL">EUR - Euro</option>
-            <option value="DOL">CAD - Dólar Canadense</option>
+            <option value="EUR">EUR - Euro</option>
+            <option value="CAD">CAD - Dólar Canadense</option>
           </select>
         </label>
       </div>
       {exchangeRates && (
         <div>
           <h2>Resultado</h2>
-          <p>
-            Valor Total: {selectedCurrency}{" "}
-            {(calculateTotalWithTip - apartBill).toFixed(2)} ou USD{" "}
-            {(
-              (calculateTotalWithTip - apartBill) *
-              exchangeRates.conversion_rates.USD
-            ).toFixed(2)}
-          </p>
-          <p>
-            Valor A Parte: {selectedCurrency} {apartBill.toFixed(2)}
-          </p>
-          <p>
-            Valor por Pessoa: {selectedCurrency}{" "}
-            {(calculateSimplePerPersonAmount - apartBill).toFixed(2)}
-          </p>
-          <p>
-            Valor para pessoas que só comeram: {selectedCurrency}{" "}
-            {(foodOnlyTotal - apartBill).toFixed(2)}
-          </p>
-          <p>
-            Valor para pessoas que só beberam: {selectedCurrency}{" "}
-            {(drinkOnlyTotal - apartBill).toFixed(2)}
-          </p>
-          <p>
-            Valor para pessoas que comeram e beberam: {selectedCurrency}{" "}
-            {(calculateFoodAndDrinkTotal - apartBill).toFixed(2)}
-          </p>
+          {[
+            "Valor total",
+            "Valor a parte",
+            "Valor por pessoa",
+            "Valor para pessoas que só comeram",
+            "Valor para pessoas que só beberam",
+            "Valor para pessoas que comeram e beberam",
+          ].map((label, index) => (
+            <p key={index}>
+              {label}: {selectedCurrency} {calculate(label)?.toFixed(2)} ou USD{" "}
+              {(calculate(label) * exchangeRates.conversion_rates.USD).toFixed(
+                2,
+              )}
+            </p>
+          ))}
         </div>
       )}
       <div>
