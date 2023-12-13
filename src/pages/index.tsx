@@ -10,7 +10,7 @@ const Home: React.FC = () => {
   const [foodAndDrinkPeople, setFoodAndDrinkPeople] = useState(0);
   const [tipPercentage, setTipPercentage] = useState(0);
   const [apartBill, setApartBill] = useState(0);
-  const [selectedCurrency, setSelectedCurrency] = useState("BRL");
+  const [selectedCurrency, setSelectedCurrency] = useState("USD");
   const [exchangeRates, setExchangeRates] = useState<ApiResponse | null>(null);
 
   useEffect(() => {
@@ -62,11 +62,13 @@ const Home: React.FC = () => {
     setTipPercentage(percentage);
   };
 
+  const apartBillWithTip = apartBill + apartBill * (tipPercentage / 100);
+
   const calculateTotalWithTip =
     foodBill +
     drinkBill +
     (foodBill + drinkBill) * (tipPercentage / 100) -
-    apartBill;
+    apartBillWithTip;
 
   const foodOnlyTotal =
     foodOnlyPeople !== 0
@@ -95,7 +97,7 @@ const Home: React.FC = () => {
       ))}
       <div>
         <Input
-          label="Gorjeta Personalizada:"
+          label="Gorjeta:"
           value={tipPercentage}
           onChange={handleCustomTipChange}
         />
@@ -130,14 +132,14 @@ const Home: React.FC = () => {
         <div>
           <h2>Resultado</h2>
           {[
-            ["Valor Total", calculateTotalWithTip],
-            ["Valor A Parte", apartBill],
+            ["Valor Total a ser dividido", calculateTotalWithTip],
             [
               "Valor para pessoas que comeram e beberam",
               calculateFoodAndDrinkTotal,
             ],
             ["Valor para pessoas que só comeram", foodOnlyTotal],
             ["Valor para pessoas que só beberam", drinkOnlyTotal],
+            ["Valor A Parte", apartBillWithTip],
           ].map(([label, value]) => (
             <p key={label}>
               {label}: R$ {Number(value).toFixed(2)} ou {selectedCurrency}{" "}

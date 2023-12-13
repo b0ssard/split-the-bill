@@ -39,7 +39,6 @@ const Input: React.FC<InputProps> = ({
     <label>
       {label}
       <input
-        type="number"
         step=".01"
         value={value === null || value === undefined ? "" : value}
         onChange={onChange}
