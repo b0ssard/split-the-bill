@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getExchangeRates, ApiResponse } from "@/app/api";
 import Input, { generateInputConfig } from "@/app/components/Input";
 import TipSection from "@/app/components/TipSection";
+import CurrencySection from "@/app/components/Currency";
 
 const Home: React.FC = () => {
   const [foodBill, setFoodBill] = useState(0);
@@ -97,22 +98,10 @@ const Home: React.FC = () => {
         onCustomTipChange={handleCustomTipChange}
         onTipButtonClick={(percentage) => setTipPercentage(percentage)}
       />
-      <div>
-        <label>
-          Moeda:
-          <select value={selectedCurrency} onChange={handleCurrencyChange}>
-            {[
-              { value: "USD", label: "USD - Dólar" },
-              { value: "EUR", label: "EUR - Euro" },
-              { value: "CAD", label: "CAD - Dólar Canadense" },
-            ].map((currency) => (
-              <option key={currency.value} value={currency.value}>
-                {currency.label}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
+      <CurrencySection
+        selectedCurrency={selectedCurrency}
+        onCurrencyChange={handleCurrencyChange}
+      />
       {exchangeRates && (
         <div>
           <h2>Resultado</h2>
