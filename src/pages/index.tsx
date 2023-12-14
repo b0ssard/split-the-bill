@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getExchangeRates, ApiResponse } from "@/app/api";
 import Input, { generateInputConfig } from "@/app/components/Input";
+import TipSection from "@/app/components/TipSection";
 
 const Home: React.FC = () => {
   const [foodBill, setFoodBill] = useState(0);
@@ -45,21 +46,17 @@ const Home: React.FC = () => {
     generateInputConfig("Pagar a parte:", apartBill, setApartBill),
   ];
 
-  const handleCustomTipChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const customTip = parseFloat(event.target.value);
-    setTipPercentage(isNaN(customTip) ? 0 : customTip);
-  };
-
   const handleCurrencyChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
   ) => {
     setSelectedCurrency(event.target.value);
   };
 
-  const handleTipButtonClick = (percentage: number) => {
-    setTipPercentage(percentage);
+  const handleCustomTipChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const customTip = parseFloat(event.target.value);
+    setTipPercentage(isNaN(customTip) ? 0 : customTip);
   };
 
   const apartBillWithTip = apartBill + apartBill * (tipPercentage / 100);
@@ -95,23 +92,11 @@ const Home: React.FC = () => {
       {inputConfigs.map((config, index) => (
         <Input key={index} {...config} />
       ))}
-      <div>
-        <Input
-          label="Gorjeta:"
-          value={tipPercentage}
-          onChange={handleCustomTipChange}
-        />
-      </div>
-      <div>
-        {[5, 10, 15].map((tipPercentage) => (
-          <button
-            key={tipPercentage}
-            onClick={() => handleTipButtonClick(tipPercentage)}
-          >
-            Gorjeta {tipPercentage}%
-          </button>
-        ))}
-      </div>
+      <TipSection
+        tipPercentage={tipPercentage}
+        onCustomTipChange={handleCustomTipChange}
+        onTipButtonClick={(percentage) => setTipPercentage(percentage)}
+      />
       <div>
         <label>
           Moeda:
