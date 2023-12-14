@@ -1,6 +1,4 @@
 import React from "react";
-import Input from "./Input";
-
 interface TipSectionProps {
   tipPercentage: number;
   onCustomTipChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -16,23 +14,21 @@ const TipSection: React.FC<TipSectionProps> = ({
     onTipButtonClick(percentage);
   };
 
+  const renderTipButtons = () => {
+    const tipValues = [5, 10, 15];
+
+    return tipValues.map((percentage) => (
+      <button key={percentage} onClick={() => handleTipButtonClick(percentage)}>
+        Gorjeta {percentage}%
+      </button>
+    ));
+  };
+
   return (
     <div>
-      <Input
-        label="Gorjeta:"
-        value={tipPercentage}
-        onChange={onCustomTipChange}
-      />
-      <div>
-        {[5, 10, 15].map((percentage) => (
-          <button
-            key={percentage}
-            onClick={() => handleTipButtonClick(percentage)}
-          >
-            Gorjeta {percentage}%
-          </button>
-        ))}
-      </div>
+      <label>Gorjeta: </label>
+      <input value={tipPercentage} onChange={onCustomTipChange} />
+      <div>{renderTipButtons()}</div>
     </div>
   );
 };

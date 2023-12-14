@@ -1,9 +1,20 @@
 import React from "react";
 
+interface CurrencyOption {
+  value: string;
+  label: string;
+}
+
 interface CurrencySectionProps {
   selectedCurrency: string;
   onCurrencyChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }
+
+const currencyOptions: CurrencyOption[] = [
+  { value: "USD", label: "USD - Dólar" },
+  { value: "EUR", label: "EUR - Euro" },
+  { value: "CAD", label: "CAD - Dólar Canadense" },
+];
 
 const CurrencySection: React.FC<CurrencySectionProps> = ({
   selectedCurrency,
@@ -14,11 +25,7 @@ const CurrencySection: React.FC<CurrencySectionProps> = ({
       <label>
         Moeda:
         <select value={selectedCurrency} onChange={onCurrencyChange}>
-          {[
-            { value: "USD", label: "USD - Dólar" },
-            { value: "EUR", label: "EUR - Euro" },
-            { value: "CAD", label: "CAD - Dólar Canadense" },
-          ].map((currency) => (
+          {currencyOptions.map((currency) => (
             <option key={currency.value} value={currency.value}>
               {currency.label}
             </option>

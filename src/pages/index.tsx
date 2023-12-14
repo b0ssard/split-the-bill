@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { getExchangeRates, ApiResponse } from "@/app/api";
-import Input, { generateInputConfig } from "@/app/components/Input";
-import TipSection from "@/app/components/TipSection";
-import CurrencySection from "@/app/components/Currency";
+import Input, { generateInputConfig } from "@/components/Input";
+import TipSection from "@/components/TipSection";
+import CurrencySection from "@/components/Currency";
+import Results from "@/components/Results";
 
 const Home: React.FC = () => {
   const [foodBill, setFoodBill] = useState(0);
@@ -90,9 +91,7 @@ const Home: React.FC = () => {
   return (
     <div>
       <h1>Dividir Conta</h1>
-      {inputConfigs.map((config, index) => (
-        <Input key={index} {...config} />
-      ))}
+      <Input inputConfigs={inputConfigs} />
       <TipSection
         tipPercentage={tipPercentage}
         onCustomTipChange={handleCustomTipChange}
@@ -103,26 +102,15 @@ const Home: React.FC = () => {
         onCurrencyChange={handleCurrencyChange}
       />
       {exchangeRates && (
-        <div>
-          <h2>Resultado</h2>
-          {[
-            ["Valor Total a ser dividido", calculateTotalWithTip],
-            [
-              "Valor para pessoas que comeram e beberam",
-              calculateFoodAndDrinkTotal,
-            ],
-            ["Valor para pessoas que só comeram", foodOnlyTotal],
-            ["Valor para pessoas que só beberam", drinkOnlyTotal],
-            ["Valor A Parte", apartBillWithTip],
-          ].map(([label, value]) => (
-            <p key={label}>
-              {label}: R$ {Number(value).toFixed(2)} ou {selectedCurrency}{" "}
-              {(
-                Number(value) * exchangeRates.conversion_rates[selectedCurrency]
-              ).toFixed(2)}
-            </p>
-          ))}
-        </div>
+        <Results
+          calculateTotalWithTip={calculateTotalWithTip}
+          calculateFoodAndDrinkTotal={calculateFoodAndDrinkTotal}
+          foodOnlyTotal={foodOnlyTotal}
+          drinkOnlyTotal={drinkOnlyTotal}
+          apartBillWithTip={apartBillWithTip}
+          selectedCurrency={selectedCurrency}
+          exchangeRates={exchangeRates}
+        />
       )}
     </div>
   );
