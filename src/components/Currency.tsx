@@ -22,16 +22,14 @@ const CurrencySection: React.FC<CurrencySectionProps> = ({
 }) => {
   return (
     <div>
-      <label>
-        Moeda:
-        <select value={selectedCurrency} onChange={onCurrencyChange}>
-          {currencyOptions.map((currency) => (
-            <option key={currency.value} value={currency.value}>
-              {currency.label}
-            </option>
-          ))}
-        </select>
-      </label>
+      <label>Moeda: </label>
+      <select value={selectedCurrency} onChange={onCurrencyChange}>
+        {currencyOptions.map((currency) => (
+          <option key={currency.value} value={currency.value}>
+            {currency.label}
+          </option>
+        ))}
+      </select>
     </div>
   );
 };

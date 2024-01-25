@@ -31,21 +31,21 @@ const Home: React.FC = () => {
     generateInputConfig("Comida: ", foodBill, setFoodBill),
     generateInputConfig("Bebida: ", drinkBill, setDrinkBill),
     generateInputConfig(
-      "Pessoas que comeram e beberam:",
+      "Pessoas que comeram e beberam: ",
       foodAndDrinkPeople,
       setFoodAndDrinkPeople,
     ),
     generateInputConfig(
-      "Pessoas que só comeram:",
+      "Pessoas que só comeram: ",
       foodOnlyPeople,
       setFoodOnlyPeople,
     ),
     generateInputConfig(
-      "Pessoas que só beberam:",
+      "Pessoas que só beberam: ",
       drinkOnlyPeople,
       setDrinkOnlyPeople,
     ),
-    generateInputConfig("Pagar a parte:", apartBill, setApartBill),
+    generateInputConfig("Pagar a parte: ", apartBill, setApartBill),
   ];
 
   const handleCurrencyChange = (

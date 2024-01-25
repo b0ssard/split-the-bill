@@ -21,6 +21,15 @@ interface ResultsProps {
   exchangeRates: ExchangeRates;
 }
 
+const formatCurrencyValue = (
+  value: number,
+  selectedCurrency: string,
+  conversionRate: number,
+): string => {
+  const formattedValue = (value * conversionRate).toFixed(2);
+  return `R$ ${formattedValue} ou ${selectedCurrency} ${formattedValue}`;
+};
+
 const Results: React.FC<ResultsProps> = ({
   calculateTotalWithTip,
   calculateFoodAndDrinkTotal,
@@ -28,7 +37,7 @@ const Results: React.FC<ResultsProps> = ({
   drinkOnlyTotal,
   apartBillWithTip,
   selectedCurrency,
-  exchangeRates,
+  exchangeRates: { conversion_rates },
 }) => {
   const resultItems: ResultItem[] = [
     { label: "Valor Total a ser dividido", value: calculateTotalWithTip },
@@ -46,9 +55,11 @@ const Results: React.FC<ResultsProps> = ({
       <h2>Resultado</h2>
       {resultItems.map(({ label, value }) => (
         <p key={label}>
-          {label}: R$ {value.toFixed(2)} ou {selectedCurrency}{" "}
-          {(value * exchangeRates.conversion_rates[selectedCurrency]).toFixed(
-            2,
+          {label}:{" "}
+          {formatCurrencyValue(
+            value,
+            selectedCurrency,
+            conversion_rates[selectedCurrency],
           )}
         </p>
       ))}
