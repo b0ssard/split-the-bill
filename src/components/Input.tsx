@@ -1,5 +1,4 @@
 import React from "react";
-import { Input as ChakraInput, FormLabel, FormControl } from "@chakra-ui/react";
 
 export const generateInputConfig = (
   label: string,
@@ -23,21 +22,21 @@ interface InputListProps {
   }[];
 }
 
-const CustomInput: React.FC<InputListProps> = ({ inputConfigs }) => (
+const Input: React.FC<InputListProps> = ({ inputConfigs }) => (
   <>
     {inputConfigs &&
       inputConfigs.map((config, index) => (
-        <FormControl key={index} mb={4}>
-          <FormLabel>{config.label}</FormLabel>
-          <ChakraInput
+        <div key={index}>
+          <label>{config.label}</label>
+          <input
             type="number"
             value={config.value || ""}
             onChange={(e) => config.onChange(e)}
             placeholder={config.placeholder}
           />
-        </FormControl>
+        </div>
       ))}
   </>
 );
 
-export default CustomInput;
+export default Input;
