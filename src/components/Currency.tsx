@@ -1,4 +1,5 @@
 import React from "react";
+import { Box, Text, Select } from "@chakra-ui/react";
 
 interface CurrencyOption {
   value: string;
@@ -21,16 +22,16 @@ const CurrencySection: React.FC<CurrencySectionProps> = ({
   onCurrencyChange,
 }) => {
   return (
-    <div>
-      <label>Moeda: </label>
-      <select value={selectedCurrency} onChange={onCurrencyChange}>
+    <Box mb={4}>
+      <Text>Moeda:</Text>
+      <Select value={selectedCurrency} onChange={onCurrencyChange}>
         {currencyOptions.map((currency) => (
           <option key={currency.value} value={currency.value}>
             {currency.label}
           </option>
         ))}
-      </select>
-    </div>
+      </Select>
+    </Box>
   );
 };
 

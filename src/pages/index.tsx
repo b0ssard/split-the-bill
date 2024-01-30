@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Box, Heading, Container, Divider, useToast } from "@chakra-ui/react";
 import { getExchangeRates, ApiResponse } from "@/app/api";
 import Input, { generateInputConfig } from "@/components/Input";
 import TipSection from "@/components/TipSection";
@@ -15,17 +16,26 @@ const Home: React.FC = () => {
   const [apartBill, setApartBill] = useState(0);
   const [selectedCurrency, setSelectedCurrency] = useState("USD");
   const [exchangeRates, setExchangeRates] = useState<ApiResponse | null>(null);
+  const toast = useToast();
 
   useEffect(() => {
     const fetchData = async () => {
-      const rates = await getExchangeRates();
-      if (rates) {
+      try {
+        const rates = await getExchangeRates();
         setExchangeRates(rates);
+      } catch (error) {
+        toast({
+          title: "Erro ao obter taxas de câmbio",
+          description: "Por favor, tente novamente mais tarde.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
       }
     };
 
     fetchData();
-  }, []);
+  }, [toast]);
 
   const inputConfigs = [
     generateInputConfig("Comida: ", foodBill, setFoodBill),
@@ -89,30 +99,37 @@ const Home: React.FC = () => {
       : 0;
 
   return (
-    <div>
-      <h1>Dividir Conta</h1>
-      <Input inputConfigs={inputConfigs} />
-      <TipSection
-        tipPercentage={tipPercentage}
-        onCustomTipChange={handleCustomTipChange}
-        onTipButtonClick={(percentage) => setTipPercentage(percentage)}
-      />
-      <CurrencySection
-        selectedCurrency={selectedCurrency}
-        onCurrencyChange={handleCurrencyChange}
-      />
-      {exchangeRates && (
-        <Results
-          calculateTotalWithTip={calculateTotalWithTip}
-          calculateFoodAndDrinkTotal={calculateFoodAndDrinkTotal}
-          foodOnlyTotal={foodOnlyTotal}
-          drinkOnlyTotal={drinkOnlyTotal}
-          apartBillWithTip={apartBillWithTip}
-          selectedCurrency={selectedCurrency}
-          exchangeRates={exchangeRates}
+    <Container maxW="container.md" mt={8}>
+      <Box p={4} borderWidth="1px" borderRadius="lg">
+        <Heading as="h1" mb={4}>
+          Dividir Conta
+        </Heading>
+        <Input inputConfigs={inputConfigs} />
+        <TipSection
+          tipPercentage={tipPercentage}
+          onCustomTipChange={handleCustomTipChange}
+          onTipButtonClick={(percentage) => setTipPercentage(percentage)}
         />
-      )}
-    </div>
+        <CurrencySection
+          selectedCurrency={selectedCurrency}
+          onCurrencyChange={handleCurrencyChange}
+        />
+        {exchangeRates && (
+          <>
+            <Divider my={4} />
+            <Results
+              calculateTotalWithTip={calculateTotalWithTip}
+              calculateFoodAndDrinkTotal={calculateFoodAndDrinkTotal}
+              foodOnlyTotal={foodOnlyTotal}
+              drinkOnlyTotal={drinkOnlyTotal}
+              apartBillWithTip={apartBillWithTip}
+              selectedCurrency={selectedCurrency}
+              exchangeRates={exchangeRates}
+            />
+          </>
+        )}
+      </Box>
+    </Container>
   );
 };
 

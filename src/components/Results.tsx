@@ -1,4 +1,5 @@
 import React from "react";
+import { Box, Heading, Text } from "@chakra-ui/react";
 
 interface ExchangeRates {
   conversion_rates: {
@@ -51,19 +52,21 @@ const Results: React.FC<ResultsProps> = ({
   ];
 
   return (
-    <div>
-      <h2>Resultado</h2>
+    <Box>
+      <Heading as="h2" mb={4}>
+        Resultado
+      </Heading>
       {resultItems.map(({ label, value }) => (
-        <p key={label}>
+        <Text key={label} mb={2}>
           {label}:{" "}
           {formatCurrencyValue(
             value,
             selectedCurrency,
             conversion_rates[selectedCurrency],
           )}
-        </p>
+        </Text>
       ))}
-    </div>
+    </Box>
   );
 };
 
