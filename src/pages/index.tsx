@@ -1,5 +1,12 @@
 import { useState, useEffect } from "react";
-import { Box, Heading, Container, Divider, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  Container,
+  Divider,
+  useToast,
+} from "@chakra-ui/react";
 import { getExchangeRates, ApiResponse } from "@/app/api";
 import Input, { generateInputConfig } from "@/components/Input";
 import TipSection from "@/components/TipSection";
@@ -100,22 +107,29 @@ const Home: React.FC = () => {
 
   return (
     <Container maxW="container.md" mt={8}>
-      <Box p={4} borderWidth="1px" borderRadius="lg">
-        <Heading as="h1" mb={4}>
-          Dividir Conta
-        </Heading>
-        <Input inputConfigs={inputConfigs} />
-        <TipSection
-          tipPercentage={tipPercentage}
-          onCustomTipChange={handleCustomTipChange}
-          onTipButtonClick={(percentage) => setTipPercentage(percentage)}
-        />
-        <CurrencySection
-          selectedCurrency={selectedCurrency}
-          onCurrencyChange={handleCurrencyChange}
-        />
+      <Flex
+        direction={{ base: "column", md: "row" }}
+        justify="space-between"
+        align="stretch"
+        p={4}
+      >
+        <Box flex="1">
+          <Heading as="h1" mb={4}>
+            Dividir Conta
+          </Heading>
+          <Input inputConfigs={inputConfigs} />
+          <TipSection
+            tipPercentage={tipPercentage}
+            onCustomTipChange={handleCustomTipChange}
+            onTipButtonClick={(percentage) => setTipPercentage(percentage)}
+          />
+          <CurrencySection
+            selectedCurrency={selectedCurrency}
+            onCurrencyChange={handleCurrencyChange}
+          />
+        </Box>
         {exchangeRates && (
-          <>
+          <Box flex="1" ml={{ base: 0, md: 4 }}>
             <Divider my={4} />
             <Results
               calculateTotalWithTip={calculateTotalWithTip}
@@ -126,9 +140,9 @@ const Home: React.FC = () => {
               selectedCurrency={selectedCurrency}
               exchangeRates={exchangeRates}
             />
-          </>
+          </Box>
         )}
-      </Box>
+      </Flex>
     </Container>
   );
 };

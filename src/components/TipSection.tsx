@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Input, VStack } from "@chakra-ui/react";
+import { Button, Input, VStack, HStack, FormControl } from "@chakra-ui/react";
 
 interface TipSectionProps {
   tipPercentage: number;
@@ -22,7 +22,7 @@ const TipSection: React.FC<TipSectionProps> = ({
     return tipValues.map((percentage) => (
       <Button
         key={percentage}
-        colorScheme="teal" // Adicionei esta propriedade para usar o esquema de cores "teal" do Chakra UI
+        colorScheme="teal"
         onClick={() => handleTipButtonClick(percentage)}
       >
         Gorjeta {percentage}%
@@ -32,16 +32,18 @@ const TipSection: React.FC<TipSectionProps> = ({
 
   return (
     <VStack spacing={4} align="flex-start">
-      <label>Gorjeta:</label>
-      <Input
-        type="number"
-        value={tipPercentage}
-        onChange={onCustomTipChange}
-        placeholder="Digite a gorjeta personalizada"
-      />
-      <VStack spacing={2} align="flex-start">
-        {renderTipButtons()}
-      </VStack>
+      <FormControl>
+        <label>Gorjeta:</label>
+        <Input
+          type="number"
+          value={tipPercentage}
+          onChange={onCustomTipChange}
+          placeholder="Digite a gorjeta personalizada"
+        />
+      </FormControl>
+      <FormControl>
+        <HStack spacing={2}>{renderTipButtons()}</HStack>
+      </FormControl>
     </VStack>
   );
 };
