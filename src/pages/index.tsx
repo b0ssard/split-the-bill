@@ -105,6 +105,26 @@ const Home: React.FC = () => {
         foodAndDrinkPeople
       : 0;
 
+  const resultLabels = [
+    "Valor Total a ser dividido",
+    "Valor para pessoas que comeram e beberam",
+    "Valor para pessoas que só comeram",
+    "Valor para pessoas que só beberam",
+    "Valor A Parte",
+  ];
+
+  const renderedTexts = {
+    labelText: "Moeda",
+    optionLabel: "Selecionar",
+  };
+
+  const customCurrencyOptions = [
+    { value: "USD", label: "USD - Dólar Personalizado" },
+    { value: "EUR", label: "EUR - Euro Personalizado" },
+    { value: "CAD", label: "CAD - Dólar Canadense Personalizado" },
+    // Adicione mais opções conforme necessário
+  ];
+
   return (
     <Container maxW="container.md" mt={8}>
       <Flex
@@ -119,6 +139,7 @@ const Home: React.FC = () => {
           </Heading>
           <Input inputConfigs={inputConfigs} />
           <TipSection
+            label="Gorjeta:"
             tipPercentage={tipPercentage}
             onCustomTipChange={handleCustomTipChange}
             onTipButtonClick={(percentage) => setTipPercentage(percentage)}
@@ -126,12 +147,15 @@ const Home: React.FC = () => {
           <CurrencySection
             selectedCurrency={selectedCurrency}
             onCurrencyChange={handleCurrencyChange}
+            renderedTexts={renderedTexts}
+            currencyOptions={customCurrencyOptions}
           />
         </Box>
         {exchangeRates && (
           <Box flex="1" ml={{ base: 0, md: 4 }}>
             <Divider my={4} />
             <Results
+              heading="Resultado:"
               calculateTotalWithTip={calculateTotalWithTip}
               calculateFoodAndDrinkTotal={calculateFoodAndDrinkTotal}
               foodOnlyTotal={foodOnlyTotal}
@@ -139,6 +163,7 @@ const Home: React.FC = () => {
               apartBillWithTip={apartBillWithTip}
               selectedCurrency={selectedCurrency}
               exchangeRates={exchangeRates}
+              resultLabels={resultLabels}
             />
           </Box>
         )}

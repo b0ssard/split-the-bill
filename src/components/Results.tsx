@@ -20,6 +20,8 @@ interface ResultsProps {
   apartBillWithTip: number;
   selectedCurrency: string;
   exchangeRates: ExchangeRates;
+  heading: string;
+  resultLabels: string[];
 }
 
 const formatCurrencyValue = (
@@ -38,23 +40,22 @@ const Results: React.FC<ResultsProps> = ({
   drinkOnlyTotal,
   apartBillWithTip,
   selectedCurrency,
+  heading,
   exchangeRates: { conversion_rates },
+  resultLabels,
 }) => {
   const resultItems: ResultItem[] = [
-    { label: "Valor Total a ser dividido", value: calculateTotalWithTip },
-    {
-      label: "Valor para pessoas que comeram e beberam",
-      value: calculateFoodAndDrinkTotal,
-    },
-    { label: "Valor para pessoas que só comeram", value: foodOnlyTotal },
-    { label: "Valor para pessoas que só beberam", value: drinkOnlyTotal },
-    { label: "Valor A Parte", value: apartBillWithTip },
+    { label: resultLabels[0], value: calculateTotalWithTip },
+    { label: resultLabels[1], value: calculateFoodAndDrinkTotal },
+    { label: resultLabels[2], value: foodOnlyTotal },
+    { label: resultLabels[3], value: drinkOnlyTotal },
+    { label: resultLabels[4], value: apartBillWithTip },
   ];
 
   return (
     <Box>
       <Heading as="h2" mb={4}>
-        Resultado
+        {heading}
       </Heading>
       {resultItems.map(({ label, value }) => (
         <Text key={label} mb={2}>

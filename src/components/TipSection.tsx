@@ -5,11 +5,13 @@ interface TipSectionProps {
   tipPercentage: number;
   onCustomTipChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onTipButtonClick: (percentage: number) => void;
+  label: string;
 }
 
 const TipSection: React.FC<TipSectionProps> = ({
   tipPercentage,
   onCustomTipChange,
+  label,
   onTipButtonClick,
 }) => {
   const handleTipButtonClick = (percentage: number) => {
@@ -33,7 +35,7 @@ const TipSection: React.FC<TipSectionProps> = ({
   return (
     <VStack spacing={4} align="flex-start">
       <FormControl>
-        <label>Gorjeta:</label>
+        <label>{label}</label>
         <Input
           type="number"
           value={tipPercentage}

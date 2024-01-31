@@ -9,25 +9,28 @@ interface CurrencyOption {
 interface CurrencySectionProps {
   selectedCurrency: string;
   onCurrencyChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+  renderedTexts: {
+    labelText: string;
+    optionLabel: string;
+  };
+  currencyOptions: CurrencyOption[];
 }
-
-const currencyOptions: CurrencyOption[] = [
-  { value: "USD", label: "USD - Dólar" },
-  { value: "EUR", label: "EUR - Euro" },
-  { value: "CAD", label: "CAD - Dólar Canadense" },
-];
 
 const CurrencySection: React.FC<CurrencySectionProps> = ({
   selectedCurrency,
   onCurrencyChange,
+  renderedTexts,
+  currencyOptions,
 }) => {
+  const { labelText, optionLabel } = renderedTexts;
+
   return (
     <Box mb={4}>
-      <Text>Moeda:</Text>
+      <Text>{labelText}:</Text>
       <Select value={selectedCurrency} onChange={onCurrencyChange}>
         {currencyOptions.map((currency) => (
           <option key={currency.value} value={currency.value}>
-            {currency.label}
+            {optionLabel} {currency.label}
           </option>
         ))}
       </Select>
