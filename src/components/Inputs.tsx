@@ -14,13 +14,15 @@ export const generateInputConfig = (
   },
 });
 
+interface InputConfig {
+  label: string;
+  value: number;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder?: string;
+}
+
 interface InputListProps {
-  inputConfigs: {
-    label: string;
-    value: number;
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    placeholder?: string;
-  }[];
+  inputConfigs: InputConfig[];
 }
 
 const Input: React.FC<InputListProps> = ({ inputConfigs }) => (

@@ -40,8 +40,8 @@ const Results: React.FC<ResultsProps> = ({
   drinkOnlyTotal,
   apartBillWithTip,
   selectedCurrency,
-  heading,
   exchangeRates: { conversion_rates },
+  heading,
   resultLabels,
 }) => {
   const resultItems: ResultItem[] = [

@@ -8,10 +8,10 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { getExchangeRates, ApiResponse } from "@/app/api";
-import Input, { generateInputConfig } from "@/components/Input";
+import Input, { generateInputConfig } from "@/components/Inputs";
 import TipSection from "@/components/TipSection";
-import CurrencySection from "@/components/Currency";
-import Results from "@/components/Results";
+import CurrencySection from "@/components/CurrencySection";
+import Results from "@/components/ResultsSection";
 
 const Home: React.FC = () => {
   const [foodBill, setFoodBill] = useState(0);
@@ -122,7 +122,6 @@ const Home: React.FC = () => {
     { value: "USD", label: "USD - Dólar Personalizado" },
     { value: "EUR", label: "EUR - Euro Personalizado" },
     { value: "CAD", label: "CAD - Dólar Canadense Personalizado" },
-    // Adicione mais opções conforme necessário
   ];
 
   return (
