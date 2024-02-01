@@ -22,16 +22,18 @@ interface ResultsProps {
   exchangeRates: ExchangeRates;
   heading: string;
   resultLabels: string[];
+  ou: string;
 }
 
 const formatCurrencyValue = (
   value: number,
   selectedCurrency: string,
   conversionRate: number,
+  ou: string,
 ): string => {
   const formattedValueConverted = (value * conversionRate).toFixed(2);
   const formattedValue = value.toFixed(2);
-  return `R$ ${formattedValue} ou ${selectedCurrency} ${formattedValueConverted}`;
+  return `R$ ${formattedValue} ${ou} ${selectedCurrency} ${formattedValueConverted}`;
 };
 
 const Results: React.FC<ResultsProps> = ({
@@ -44,6 +46,7 @@ const Results: React.FC<ResultsProps> = ({
   exchangeRates: { conversion_rates },
   heading,
   resultLabels,
+  ou,
 }) => {
   const resultItems: ResultItem[] = [
     { label: resultLabels[0], value: calculateTotalWithTip },
@@ -65,6 +68,7 @@ const Results: React.FC<ResultsProps> = ({
             value,
             selectedCurrency,
             conversion_rates[selectedCurrency],
+            ou,
           )}
         </Text>
       ))}

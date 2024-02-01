@@ -155,6 +155,7 @@ const Home: React.FC = () => {
             <Divider my={4} />
             <Results
               heading="Resultado:"
+              ou=" ou "
               calculateTotalWithTip={calculateTotalWithTip}
               calculateFoodAndDrinkTotal={calculateFoodAndDrinkTotal}
               foodOnlyTotal={foodOnlyTotal}
