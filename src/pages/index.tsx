@@ -1,94 +1,28 @@
-import React, { useState, useEffect } from "react";
-import {
-  Box,
-  Flex,
-  Heading,
-  Container,
-  Divider,
-  useToast,
-} from "@chakra-ui/react";
-import { getExchangeRates, ApiResponse } from "@/app/api";
-import Input, { generateInputConfig } from "@/components/Inputs";
+import React from "react";
+import useCalculatorHooks from "@/hooks/calculator";
+import Input from "@/components/Inputs";
 import TipSection from "@/components/TipSection";
 import CurrencySection from "@/components/CurrencySection";
 import Results from "@/components/ResultsSection";
 
 const Home: React.FC = () => {
-  const [foodBill, setFoodBill] = useState(0);
-  const [drinkBill, setDrinkBill] = useState(0);
-  const [foodOnlyPeople, setFoodOnlyPeople] = useState(0);
-  const [drinkOnlyPeople, setDrinkOnlyPeople] = useState(0);
-  const [foodAndDrinkPeople, setFoodAndDrinkPeople] = useState(0);
-  const [tipPercentage, setTipPercentage] = useState(0);
-  const [apartBill, setApartBill] = useState(0);
-  const [selectedCurrency, setSelectedCurrency] = useState("USD");
-  const [exchangeRates, setExchangeRates] = useState<ApiResponse | null>(null);
-  const toast = useToast();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const rates = await getExchangeRates();
-        setExchangeRates(rates);
-      } catch (error) {
-        toast({
-          title: "Erro ao obter taxas de câmbio",
-          description: "Por favor, tente novamente mais tarde.",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-        });
-      }
-    };
-
-    fetchData();
-  }, [toast]);
-
-  const inputConfigs = [
-    generateInputConfig("Comida: ", foodBill, setFoodBill),
-    generateInputConfig("Bebida: ", drinkBill, setDrinkBill),
-    generateInputConfig(
-      "Pessoas que comeram e beberam: ",
-      foodAndDrinkPeople,
-      setFoodAndDrinkPeople,
-    ),
-    generateInputConfig(
-      "Pessoas que só comeram: ",
-      foodOnlyPeople,
-      setFoodOnlyPeople,
-    ),
-    generateInputConfig(
-      "Pessoas que só beberam: ",
-      drinkOnlyPeople,
-      setDrinkOnlyPeople,
-    ),
-    generateInputConfig("Pagar a parte: ", apartBill, setApartBill),
-  ];
-
-  const handleCurrencyChange = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
-    setSelectedCurrency(event.target.value);
-  };
-
-  const handleCustomTipChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    const customTip = parseFloat(event.target.value);
-    setTipPercentage(isNaN(customTip) ? 0 : customTip);
-  };
-
-  const calculateTotalWithTip = () => {
-    const totalWithoutTip = foodBill + drinkBill;
-    const totalWithTip = totalWithoutTip * (1 + tipPercentage / 100);
-    return totalWithTip - (apartBill + apartBill * (tipPercentage / 100));
-  };
-
-  const calculateCategoryTotal = (bill: number, people: number) => {
-    return people !== 0
-      ? (bill + bill * (tipPercentage / 100)) / (people + foodAndDrinkPeople)
-      : 0;
-  };
+  const {
+    foodBill,
+    drinkBill,
+    foodOnlyPeople,
+    drinkOnlyPeople,
+    foodAndDrinkPeople,
+    tipPercentage,
+    setTipPercentage,
+    apartBill,
+    selectedCurrency,
+    exchangeRates,
+    inputConfigs,
+    handleCurrencyChange,
+    handleCustomTipChange,
+    calculateTotalWithTip,
+    calculateCategoryTotal,
+  } = useCalculatorHooks();
 
   const foodOnlyTotal = calculateCategoryTotal(foodBill, foodOnlyPeople);
   const drinkOnlyTotal = calculateCategoryTotal(drinkBill, drinkOnlyPeople);
@@ -117,48 +51,34 @@ const Home: React.FC = () => {
   ];
 
   return (
-    <Container maxW="container.md" mt={8}>
-      <Flex
-        direction={{ base: "column", md: "row" }}
-        justify="space-between"
-        align="stretch"
-        p={4}
-      >
-        <Box flex="1">
-          <Heading as="h1" mb={4}>
-            Dividir Conta
-          </Heading>
-          <Input inputConfigs={inputConfigs} />
-          <TipSection
-            label="Gorjeta:"
-            tipPercentage={tipPercentage}
-            onCustomTipChange={handleCustomTipChange}
-            onTipButtonClick={(percentage) => setTipPercentage(percentage)}
-          />
-          <CurrencySection
-            selectedCurrency={selectedCurrency}
-            onCurrencyChange={handleCurrencyChange}
-            renderedTexts={renderedTexts}
-            currencyOptions={customCurrencyOptions}
-          />
-        </Box>
-        <Box flex="1" ml={{ base: 0, md: 4 }}>
-          <Divider my={4} />
-          <Results
-            heading="Resultado:"
-            ou=" ou "
-            calculateTotalWithTip={calculateTotalWithTip()}
-            calculateFoodAndDrinkTotal={calculateFoodAndDrinkTotal}
-            foodOnlyTotal={foodOnlyTotal}
-            drinkOnlyTotal={drinkOnlyTotal}
-            apartBillWithTip={apartBill + apartBill * (tipPercentage / 100)}
-            selectedCurrency={selectedCurrency}
-            exchangeRates={exchangeRates}
-            resultLabels={resultLabels}
-          />
-        </Box>
-      </Flex>
-    </Container>
+    <div>
+      <h1>Calculator App</h1>
+      <Input inputConfigs={inputConfigs} />
+      <TipSection
+        label="Gorjeta:"
+        tipPercentage={tipPercentage}
+        onCustomTipChange={handleCustomTipChange}
+        onTipButtonClick={(percentage) => setTipPercentage(percentage)}
+      />
+      <CurrencySection
+        selectedCurrency={selectedCurrency}
+        onCurrencyChange={handleCurrencyChange}
+        renderedTexts={renderedTexts}
+        currencyOptions={customCurrencyOptions}
+      />
+      <Results
+        heading="Resultado:"
+        ou=" ou "
+        calculateTotalWithTip={calculateTotalWithTip()}
+        calculateFoodAndDrinkTotal={calculateFoodAndDrinkTotal}
+        foodOnlyTotal={foodOnlyTotal}
+        drinkOnlyTotal={drinkOnlyTotal}
+        apartBillWithTip={apartBill + apartBill * (tipPercentage / 100)}
+        selectedCurrency={selectedCurrency}
+        exchangeRates={exchangeRates}
+        resultLabels={resultLabels}
+      />
+    </div>
   );
 };
 
