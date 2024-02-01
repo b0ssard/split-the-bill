@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Flex,
@@ -78,32 +78,24 @@ const Home: React.FC = () => {
     setTipPercentage(isNaN(customTip) ? 0 : customTip);
   };
 
-  const apartBillWithTip = apartBill + apartBill * (tipPercentage / 100);
+  const calculateTotalWithTip = () => {
+    const totalWithoutTip = foodBill + drinkBill;
+    const totalWithTip = totalWithoutTip * (1 + tipPercentage / 100);
+    return totalWithTip - (apartBill + apartBill * (tipPercentage / 100));
+  };
 
-  const calculateTotalWithTip =
-    foodBill +
-    drinkBill +
-    (foodBill + drinkBill) * (tipPercentage / 100) -
-    apartBillWithTip;
-
-  const foodOnlyTotal =
-    foodOnlyPeople !== 0
-      ? (foodBill + foodBill * (tipPercentage / 100)) /
-        (foodOnlyPeople + foodAndDrinkPeople)
+  const calculateCategoryTotal = (bill: number, people: number) => {
+    return people !== 0
+      ? (bill + bill * (tipPercentage / 100)) / (people + foodAndDrinkPeople)
       : 0;
+  };
 
-  const drinkOnlyTotal =
-    drinkOnlyPeople !== 0
-      ? (drinkBill + drinkBill * (tipPercentage / 100)) /
-        (drinkOnlyPeople + foodAndDrinkPeople)
-      : 0;
-
-  const calculateFoodAndDrinkTotal =
-    foodAndDrinkPeople !== 0
-      ? (calculateTotalWithTip -
-          (foodOnlyTotal * foodOnlyPeople + drinkOnlyTotal * drinkOnlyPeople)) /
-        foodAndDrinkPeople
-      : 0;
+  const foodOnlyTotal = calculateCategoryTotal(foodBill, foodOnlyPeople);
+  const drinkOnlyTotal = calculateCategoryTotal(drinkBill, drinkOnlyPeople);
+  const calculateFoodAndDrinkTotal = calculateCategoryTotal(
+    calculateTotalWithTip(),
+    foodAndDrinkPeople,
+  );
 
   const resultLabels = [
     "Valor Total a ser dividido",
@@ -150,23 +142,21 @@ const Home: React.FC = () => {
             currencyOptions={customCurrencyOptions}
           />
         </Box>
-        {exchangeRates && (
-          <Box flex="1" ml={{ base: 0, md: 4 }}>
-            <Divider my={4} />
-            <Results
-              heading="Resultado:"
-              ou=" ou "
-              calculateTotalWithTip={calculateTotalWithTip}
-              calculateFoodAndDrinkTotal={calculateFoodAndDrinkTotal}
-              foodOnlyTotal={foodOnlyTotal}
-              drinkOnlyTotal={drinkOnlyTotal}
-              apartBillWithTip={apartBillWithTip}
-              selectedCurrency={selectedCurrency}
-              exchangeRates={exchangeRates}
-              resultLabels={resultLabels}
-            />
-          </Box>
-        )}
+        <Box flex="1" ml={{ base: 0, md: 4 }}>
+          <Divider my={4} />
+          <Results
+            heading="Resultado:"
+            ou=" ou "
+            calculateTotalWithTip={calculateTotalWithTip()}
+            calculateFoodAndDrinkTotal={calculateFoodAndDrinkTotal}
+            foodOnlyTotal={foodOnlyTotal}
+            drinkOnlyTotal={drinkOnlyTotal}
+            apartBillWithTip={apartBill + apartBill * (tipPercentage / 100)}
+            selectedCurrency={selectedCurrency}
+            exchangeRates={exchangeRates}
+            resultLabels={resultLabels}
+          />
+        </Box>
       </Flex>
     </Container>
   );

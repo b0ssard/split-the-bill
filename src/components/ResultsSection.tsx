@@ -19,7 +19,7 @@ interface ResultsProps {
   drinkOnlyTotal: number;
   apartBillWithTip: number;
   selectedCurrency: string;
-  exchangeRates: ExchangeRates;
+  exchangeRates: ExchangeRates | null;
   heading: string;
   resultLabels: string[];
   ou: string;
@@ -29,11 +29,10 @@ const formatCurrencyValue = (
   value: number,
   selectedCurrency: string,
   conversionRate: number,
-  ou: string,
 ): string => {
   const formattedValueConverted = (value * conversionRate).toFixed(2);
   const formattedValue = value.toFixed(2);
-  return `R$ ${formattedValue} ${ou} ${selectedCurrency} ${formattedValueConverted}`;
+  return `R$ ${formattedValue} ou ${selectedCurrency} ${formattedValueConverted}`;
 };
 
 const Results: React.FC<ResultsProps> = ({
@@ -43,11 +42,14 @@ const Results: React.FC<ResultsProps> = ({
   drinkOnlyTotal,
   apartBillWithTip,
   selectedCurrency,
-  exchangeRates: { conversion_rates },
+  exchangeRates,
   heading,
   resultLabels,
-  ou,
 }) => {
+  if (!exchangeRates || !exchangeRates.conversion_rates) {
+    return <div>Loading...</div>;
+  }
+
   const resultItems: ResultItem[] = [
     { label: resultLabels[0], value: calculateTotalWithTip },
     { label: resultLabels[1], value: calculateFoodAndDrinkTotal },
@@ -67,8 +69,7 @@ const Results: React.FC<ResultsProps> = ({
           {formatCurrencyValue(
             value,
             selectedCurrency,
-            conversion_rates[selectedCurrency],
-            ou,
+            exchangeRates.conversion_rates[selectedCurrency],
           )}
         </Text>
       ))}
