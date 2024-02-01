@@ -119,9 +119,9 @@ const Home: React.FC = () => {
   };
 
   const customCurrencyOptions = [
-    { value: "USD", label: "USD - Dólar Personalizado" },
-    { value: "EUR", label: "EUR - Euro Personalizado" },
-    { value: "CAD", label: "CAD - Dólar Canadense Personalizado" },
+    { value: "USD", label: "USD - Dólar" },
+    { value: "EUR", label: "EUR - Euro" },
+    { value: "CAD", label: "CAD - Dólar Canadense" },
   ];
 
   return (

@@ -29,8 +29,9 @@ const formatCurrencyValue = (
   selectedCurrency: string,
   conversionRate: number,
 ): string => {
-  const formattedValue = (value * conversionRate).toFixed(2);
-  return `R$ ${formattedValue} ou ${selectedCurrency} ${formattedValue}`;
+  const formattedValueConverted = (value * conversionRate).toFixed(2);
+  const formattedValue = value.toFixed(2);
+  return `R$ ${formattedValue} ou ${selectedCurrency} ${formattedValueConverted}`;
 };
 
 const Results: React.FC<ResultsProps> = ({
