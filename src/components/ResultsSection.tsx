@@ -47,7 +47,7 @@ const Results: React.FC<ResultsProps> = ({
   resultLabels,
 }) => {
   if (!exchangeRates || !exchangeRates.conversion_rates) {
-    return <div>Loading...</div>;
+    return <div>Carregando...</div>;
   }
 
   const resultItems: ResultItem[] = [

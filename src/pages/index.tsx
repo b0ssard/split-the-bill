@@ -23,14 +23,17 @@ const Home: React.FC = () => {
     handleCustomTipChange,
     calculateTotalWithTip,
     calculateCategoryTotal,
+    calculateCategoryFoodAndDrinkTotal,
   } = useCalculatorHooks();
 
   const foodOnlyTotal = calculateCategoryTotal(foodBill, foodOnlyPeople);
   const drinkOnlyTotal = calculateCategoryTotal(drinkBill, drinkOnlyPeople);
-  const calculateFoodAndDrinkTotal = calculateCategoryTotal(
-    calculateTotalWithTip(),
-    foodAndDrinkPeople,
-  );
+  const calculateFoodAndDrinkTotal =
+    calculateCategoryFoodAndDrinkTotal(
+      calculateTotalWithTip(),
+      foodAndDrinkPeople,
+    ) -
+    (foodOnlyTotal + drinkOnlyTotal);
 
   const resultLabels = [
     "Valor Total a ser dividido",

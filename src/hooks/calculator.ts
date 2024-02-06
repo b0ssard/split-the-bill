@@ -70,7 +70,8 @@ const useCalculatorHooks = () => {
 
   const calculateTotalWithTip = () => {
     const totalWithoutTip = foodBill + drinkBill;
-    const totalWithTip = totalWithoutTip * (1 + tipPercentage / 100);
+    const totalWithTip =
+      totalWithoutTip + totalWithoutTip * (tipPercentage / 100);
     return totalWithTip - (apartBill + apartBill * (tipPercentage / 100));
   };
 
@@ -78,6 +79,10 @@ const useCalculatorHooks = () => {
     return people !== 0
       ? (bill + bill * (tipPercentage / 100)) / (people + foodAndDrinkPeople)
       : 0;
+  };
+
+  const calculateCategoryFoodAndDrinkTotal = (bill: number, people: number) => {
+    return people !== 0 ? (bill + bill * (tipPercentage / 100)) / people : 0;
   };
 
   return {
@@ -102,6 +107,7 @@ const useCalculatorHooks = () => {
     handleCustomTipChange,
     calculateTotalWithTip,
     calculateCategoryTotal,
+    calculateCategoryFoodAndDrinkTotal,
   };
 };
 
