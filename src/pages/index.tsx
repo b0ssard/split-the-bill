@@ -5,14 +5,12 @@ import Input from "@/components/Inputs";
 import TipSection from "@/components/TipSection";
 import CurrencySection from "@/components/CurrencySection";
 import Results from "@/components/ResultsSection";
+import FoodAndDrinkPeopleInput from "@/components/People";
 
 const Home: React.FC = () => {
   const {
     foodBill,
     drinkBill,
-    foodOnlyPeople,
-    drinkOnlyPeople,
-    foodAndDrinkPeople,
     tipPercentage,
     setTipPercentage,
     apartBill,
@@ -23,23 +21,13 @@ const Home: React.FC = () => {
     handleCustomTipChange,
     calculateTotalWithTip,
     calculateCategoryTotal,
-    calculateCategoryFoodAndDrinkTotal,
   } = useCalculatorHooks();
 
-  const foodOnlyTotal = calculateCategoryTotal(foodBill, foodOnlyPeople);
-  const drinkOnlyTotal = calculateCategoryTotal(drinkBill, drinkOnlyPeople);
-  const calculateFoodAndDrinkTotal =
-    calculateCategoryFoodAndDrinkTotal(
-      calculateTotalWithTip(),
-      foodAndDrinkPeople,
-    ) -
-    (foodOnlyTotal + drinkOnlyTotal);
+  const foodAndDrinkTotal = calculateCategoryTotal(foodBill + drinkBill);
 
   const resultLabels = [
     "Valor Total a ser dividido",
     "Valor para pessoas que comeram e beberam",
-    "Valor para pessoas que só comeram",
-    "Valor para pessoas que só beberam",
     "Valor A Parte",
   ];
 
@@ -63,6 +51,7 @@ const Home: React.FC = () => {
             onCustomTipChange={handleCustomTipChange}
             onTipButtonClick={(percentage) => setTipPercentage(percentage)}
           />
+          <FoodAndDrinkPeopleInput />
           <CurrencySection
             selectedCurrency={selectedCurrency}
             onCurrencyChange={handleCurrencyChange}
@@ -77,11 +66,8 @@ const Home: React.FC = () => {
           <Divider my={4} />
           <Results
             heading="Resultado:"
-            ou=" ou "
             calculateTotalWithTip={calculateTotalWithTip()}
-            calculateFoodAndDrinkTotal={calculateFoodAndDrinkTotal}
-            foodOnlyTotal={foodOnlyTotal}
-            drinkOnlyTotal={drinkOnlyTotal}
+            foodAndDrinkTotal={foodAndDrinkTotal}
             apartBillWithTip={apartBill + apartBill * (tipPercentage / 100)}
             selectedCurrency={selectedCurrency}
             exchangeRates={exchangeRates}

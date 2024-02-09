@@ -14,15 +14,12 @@ interface ResultItem {
 
 interface ResultsProps {
   calculateTotalWithTip: number;
-  calculateFoodAndDrinkTotal: number;
-  foodOnlyTotal: number;
-  drinkOnlyTotal: number;
+  foodAndDrinkTotal: number;
   apartBillWithTip: number;
   selectedCurrency: string;
   exchangeRates: ExchangeRates | null;
   heading: string;
   resultLabels: string[];
-  ou: string;
 }
 
 const formatCurrencyValue = (
@@ -37,9 +34,7 @@ const formatCurrencyValue = (
 
 const Results: React.FC<ResultsProps> = ({
   calculateTotalWithTip,
-  calculateFoodAndDrinkTotal,
-  foodOnlyTotal,
-  drinkOnlyTotal,
+  foodAndDrinkTotal,
   apartBillWithTip,
   selectedCurrency,
   exchangeRates,
@@ -52,10 +47,8 @@ const Results: React.FC<ResultsProps> = ({
 
   const resultItems: ResultItem[] = [
     { label: resultLabels[0], value: calculateTotalWithTip },
-    { label: resultLabels[1], value: calculateFoodAndDrinkTotal },
-    { label: resultLabels[2], value: foodOnlyTotal },
-    { label: resultLabels[3], value: drinkOnlyTotal },
-    { label: resultLabels[4], value: apartBillWithTip },
+    { label: resultLabels[1], value: foodAndDrinkTotal },
+    { label: resultLabels[2], value: apartBillWithTip },
   ];
 
   return (

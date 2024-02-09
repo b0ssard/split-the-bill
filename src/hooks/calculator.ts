@@ -6,9 +6,7 @@ import { getExchangeRates, ApiResponse } from "@/app/api";
 const useCalculatorHooks = () => {
   const [foodBill, setFoodBill] = useState(0);
   const [drinkBill, setDrinkBill] = useState(0);
-  const [foodOnlyPeople, setFoodOnlyPeople] = useState(0);
-  const [drinkOnlyPeople, setDrinkOnlyPeople] = useState(0);
-  const [foodAndDrinkPeople, setFoodAndDrinkPeople] = useState(0);
+  const [foodAndDrinkPeople, setFoodAndDrinkPeople] = useState(1);
   const [tipPercentage, setTipPercentage] = useState(0);
   const [apartBill, setApartBill] = useState(0);
   const [selectedCurrency, setSelectedCurrency] = useState("USD");
@@ -42,16 +40,6 @@ const useCalculatorHooks = () => {
       foodAndDrinkPeople,
       setFoodAndDrinkPeople,
     ),
-    generateInputConfig(
-      "Pessoas que só comeram: ",
-      foodOnlyPeople,
-      setFoodOnlyPeople,
-    ),
-    generateInputConfig(
-      "Pessoas que só beberam: ",
-      drinkOnlyPeople,
-      setDrinkOnlyPeople,
-    ),
     generateInputConfig("Pagar a parte: ", apartBill, setApartBill),
   ];
 
@@ -70,19 +58,17 @@ const useCalculatorHooks = () => {
 
   const calculateTotalWithTip = () => {
     const totalWithoutTip = foodBill + drinkBill;
-    const totalWithTip =
-      totalWithoutTip + totalWithoutTip * (tipPercentage / 100);
-    return totalWithTip - (apartBill + apartBill * (tipPercentage / 100));
+    return (
+      totalWithoutTip +
+      totalWithoutTip * (tipPercentage / 100) -
+      (apartBill + apartBill * (tipPercentage / 100))
+    );
   };
 
-  const calculateCategoryTotal = (bill: number, people: number) => {
-    return people !== 0
-      ? (bill + bill * (tipPercentage / 100)) / (people + foodAndDrinkPeople)
+  const calculateCategoryTotal = (bill: number) => {
+    return bill !== 0
+      ? (bill + bill * (tipPercentage / 100)) / foodAndDrinkPeople
       : 0;
-  };
-
-  const calculateCategoryFoodAndDrinkTotal = (bill: number, people: number) => {
-    return people !== 0 ? (bill + bill * (tipPercentage / 100)) / people : 0;
   };
 
   return {
@@ -90,10 +76,6 @@ const useCalculatorHooks = () => {
     setFoodBill,
     drinkBill,
     setDrinkBill,
-    foodOnlyPeople,
-    setFoodOnlyPeople,
-    drinkOnlyPeople,
-    setDrinkOnlyPeople,
     foodAndDrinkPeople,
     setFoodAndDrinkPeople,
     tipPercentage,
@@ -107,7 +89,6 @@ const useCalculatorHooks = () => {
     handleCustomTipChange,
     calculateTotalWithTip,
     calculateCategoryTotal,
-    calculateCategoryFoodAndDrinkTotal,
   };
 };
 
