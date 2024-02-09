@@ -59,9 +59,7 @@ const useCalculatorHooks = () => {
   const calculateTotalWithTip = () => {
     const totalWithoutTip = foodBill + drinkBill;
     return (
-      totalWithoutTip +
-      totalWithoutTip * (tipPercentage / 100) -
-      (apartBill + apartBill * (tipPercentage / 100))
+      totalWithoutTip + totalWithoutTip * (tipPercentage / 100) - apartBill
     );
   };
 
