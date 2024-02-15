@@ -1,20 +1,6 @@
 import React from "react";
 import { Box, Text, Select } from "@chakra-ui/react";
-
-interface CurrencyOption {
-  value: string;
-  label: string;
-}
-
-interface CurrencySectionProps {
-  selectedCurrency: string;
-  onCurrencyChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-  renderedTexts: {
-    labelText: string;
-    optionLabel: string;
-  };
-  currencyOptions: CurrencyOption[];
-}
+import { CurrencySectionProps } from "./types";
 
 const CurrencySection: React.FC<CurrencySectionProps> = ({
   selectedCurrency,

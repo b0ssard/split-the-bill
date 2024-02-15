@@ -1,13 +1,4 @@
-export interface ApiResponse {
-  result: string;
-  base_code: string;
-  conversion_rates: {
-    USD: number;
-    EUR: number;
-    CAD: number;
-    [key: string]: number;
-  };
-}
+import { ApiResponse } from "@/components/types";
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 const BASE_CURRENCY = "BRL";

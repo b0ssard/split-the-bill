@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { generateInputConfig } from "@/components/Inputs";
+import { ApiResponse, generateInputConfig } from "@/components/types";
 import { useToast } from "@chakra-ui/react";
-import { getExchangeRates, ApiResponse } from "@/app/api";
+import { getExchangeRates } from "@/app/api";
 
 const useCalculatorHooks = () => {
   const [foodBill, setFoodBill] = useState(0);

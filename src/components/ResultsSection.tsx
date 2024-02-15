@@ -1,25 +1,6 @@
 import React from "react";
 import { Box, Text } from "@chakra-ui/react";
-
-interface ExchangeRates {
-  conversion_rates: {
-    [key: string]: number;
-  };
-}
-
-interface ResultItem {
-  label: string;
-  value: number;
-}
-
-interface ResultsProps {
-  calculateTotalWithTip: number;
-  foodAndDrinkTotal: number;
-  apartBillWithTip: number;
-  selectedCurrency: string;
-  exchangeRates: ExchangeRates | null;
-  resultLabels: string[];
-}
+import { ResultItem, ResultsProps } from "./types";
 
 const formatCurrencyValue = (
   value: number,

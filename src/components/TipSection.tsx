@@ -1,12 +1,7 @@
 import React from "react";
 import { Button, VStack, HStack } from "@chakra-ui/react";
-import Input, { InputConfig } from "./Inputs";
-
-interface TipSectionProps {
-  tipPercentage: number;
-  onCustomTipChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onTipButtonClick: (percentage: number) => void;
-}
+import Input from "./Inputs";
+import { InputConfig, TipSectionProps } from "./types";
 
 const TipSection: React.FC<TipSectionProps> = ({
   tipPercentage,
