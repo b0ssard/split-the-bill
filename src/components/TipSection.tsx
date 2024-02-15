@@ -1,22 +1,29 @@
 import React from "react";
-import { Button, Input, VStack, HStack, FormControl } from "@chakra-ui/react";
+import { Button, VStack, HStack, FormControl } from "@chakra-ui/react";
+import Input from "./Inputs";
 
 interface TipSectionProps {
   tipPercentage: number;
   onCustomTipChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onTipButtonClick: (percentage: number) => void;
-  label: string;
 }
 
 const TipSection: React.FC<TipSectionProps> = ({
   tipPercentage,
   onCustomTipChange,
-  label,
   onTipButtonClick,
 }) => {
   const handleTipButtonClick = (percentage: number) => {
     onTipButtonClick(percentage);
   };
+
+  const inputConfigs = [
+    {
+      label: "Gorjeta:",
+      value: tipPercentage,
+      onChange: onCustomTipChange,
+    },
+  ];
 
   const renderTipButtons = () => {
     const tipValues = [5, 10, 15];
@@ -35,13 +42,7 @@ const TipSection: React.FC<TipSectionProps> = ({
   return (
     <VStack spacing={4} align="flex-start">
       <FormControl>
-        <label>{label}</label>
-        <Input
-          type="number"
-          value={tipPercentage}
-          onChange={onCustomTipChange}
-          placeholder="Digite a gorjeta personalizada"
-        />
+        <Input inputConfigs={inputConfigs} />
       </FormControl>
       <FormControl>
         <HStack spacing={2}>{renderTipButtons()}</HStack>

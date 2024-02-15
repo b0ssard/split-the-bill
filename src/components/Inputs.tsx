@@ -14,7 +14,7 @@ export const generateInputConfig = (
   },
 });
 
-interface InputConfig {
+export interface InputConfig {
   label: string;
   value: number;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;

@@ -45,7 +45,6 @@ const Home: React.FC = () => {
           </Heading>
           <Input inputConfigs={inputConfigs} />
           <TipSection
-            label="Gorjeta:"
             tipPercentage={tipPercentage}
             onCustomTipChange={handleCustomTipChange}
             onTipButtonClick={(percentage) => setTipPercentage(percentage)}
