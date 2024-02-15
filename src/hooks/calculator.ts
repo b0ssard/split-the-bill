@@ -19,29 +19,22 @@ const useCalculatorHooks = () => {
         const rates = await getExchangeRates();
         setExchangeRates(rates);
       } catch (error) {
-        toast({
-          title: "Erro ao obter taxas de câmbio",
-          description: "Por favor, tente novamente mais tarde.",
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-        });
+        handleFetchError();
       }
     };
 
     fetchData();
-  }, [toast]);
+  }, []);
 
-  const inputConfigs = [
-    generateInputConfig("Comida: ", foodBill, setFoodBill),
-    generateInputConfig("Bebida: ", drinkBill, setDrinkBill),
-    generateInputConfig(
-      "Pessoas que comeram e beberam: ",
-      foodAndDrinkPeople,
-      setFoodAndDrinkPeople,
-    ),
-    generateInputConfig("Pagar a parte: ", apartBill, setApartBill),
-  ];
+  const handleFetchError = () => {
+    toast({
+      title: "Erro ao obter taxas de câmbio",
+      description: "Por favor, tente novamente mais tarde.",
+      status: "error",
+      duration: 5000,
+      isClosable: true,
+    });
+  };
 
   const handleCurrencyChange = (
     event: React.ChangeEvent<HTMLSelectElement>,
@@ -55,6 +48,17 @@ const useCalculatorHooks = () => {
     const customTip = parseFloat(event.target.value);
     setTipPercentage(isNaN(customTip) ? 0 : customTip);
   };
+
+  const inputConfigs = [
+    generateInputConfig("Comida: ", foodBill, setFoodBill),
+    generateInputConfig("Bebida: ", drinkBill, setDrinkBill),
+    generateInputConfig(
+      "Pessoas que comeram e beberam: ",
+      foodAndDrinkPeople,
+      setFoodAndDrinkPeople,
+    ),
+    generateInputConfig("Pagar a parte: ", apartBill, setApartBill),
+  ];
 
   const calculateTotalWithTip = () => {
     const totalWithoutTip = foodBill + drinkBill;

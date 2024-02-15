@@ -30,12 +30,6 @@ const Home: React.FC = () => {
     "Valor A Parte",
   ];
 
-  const customCurrencyOptions = [
-    { value: "USD", label: "USD - Dólar" },
-    { value: "EUR", label: "EUR - Euro" },
-    { value: "CAD", label: "CAD - Dólar Canadense" },
-  ];
-
   return (
     <Container maxW="container.md" mt={8}>
       <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
@@ -62,7 +56,11 @@ const Home: React.FC = () => {
               labelText: "Moeda",
               optionLabel: "Selecionar",
             }}
-            currencyOptions={customCurrencyOptions}
+            currencyOptions={[
+              { value: "USD", label: "USD - Dólar" },
+              { value: "EUR", label: "EUR - Euro" },
+              { value: "CAD", label: "CAD - Dólar Canadense" },
+            ]}
           />
           <Results
             calculateTotalWithTip={calculateTotalWithTip()}

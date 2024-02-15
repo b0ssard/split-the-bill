@@ -1,6 +1,6 @@
 import React from "react";
-import { Button, VStack, HStack, FormControl } from "@chakra-ui/react";
-import Input from "./Inputs";
+import { Button, VStack, HStack } from "@chakra-ui/react";
+import Input, { InputConfig } from "./Inputs";
 
 interface TipSectionProps {
   tipPercentage: number;
@@ -17,7 +17,7 @@ const TipSection: React.FC<TipSectionProps> = ({
     onTipButtonClick(percentage);
   };
 
-  const inputConfigs = [
+  const inputConfigs: InputConfig[] = [
     {
       label: "Gorjeta:",
       value: tipPercentage,
@@ -41,12 +41,8 @@ const TipSection: React.FC<TipSectionProps> = ({
 
   return (
     <VStack spacing={4} align="flex-start">
-      <FormControl>
-        <Input inputConfigs={inputConfigs} />
-      </FormControl>
-      <FormControl>
-        <HStack spacing={2}>{renderTipButtons()}</HStack>
-      </FormControl>
+      <Input inputConfigs={inputConfigs} />
+      <HStack spacing={2}>{renderTipButtons()}</HStack>
     </VStack>
   );
 };

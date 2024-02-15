@@ -5,14 +5,16 @@ export const generateInputConfig = (
   label: string,
   value: number,
   setter: React.Dispatch<React.SetStateAction<number>>,
-) => ({
-  label,
-  value,
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = parseFloat(e.target.value);
-    setter(isNaN(inputValue) ? 0 : inputValue);
-  },
-});
+) => {
+  return {
+    label,
+    value,
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
+      const inputValue = parseFloat(e.target.value);
+      setter(isNaN(inputValue) ? 0 : inputValue);
+    },
+  };
+};
 
 export interface InputConfig {
   label: string;
