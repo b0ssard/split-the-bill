@@ -5,7 +5,6 @@ import Input from "@/components/Inputs";
 import TipSection from "@/components/TipSection";
 import CurrencySection from "@/components/CurrencySection";
 import Results from "@/components/ResultsSection";
-import FoodAndDrinkPeopleInput from "@/components/People";
 
 const Home: React.FC = () => {
   const {
@@ -51,7 +50,12 @@ const Home: React.FC = () => {
             onCustomTipChange={handleCustomTipChange}
             onTipButtonClick={(percentage) => setTipPercentage(percentage)}
           />
-          <FoodAndDrinkPeopleInput />
+        </Box>
+        <Box>
+          <Divider my={4} />
+          <Heading as="h2" mb={4}>
+            Resultados
+          </Heading>
           <CurrencySection
             selectedCurrency={selectedCurrency}
             onCurrencyChange={handleCurrencyChange}
@@ -61,11 +65,7 @@ const Home: React.FC = () => {
             }}
             currencyOptions={customCurrencyOptions}
           />
-        </Box>
-        <Box>
-          <Divider my={4} />
           <Results
-            heading="Resultado:"
             calculateTotalWithTip={calculateTotalWithTip()}
             foodAndDrinkTotal={foodAndDrinkTotal}
             apartBillWithTip={apartBill + apartBill * (tipPercentage / 100)}

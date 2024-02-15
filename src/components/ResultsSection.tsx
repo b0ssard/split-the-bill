@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Heading, Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 
 interface ExchangeRates {
   conversion_rates: {
@@ -18,7 +18,6 @@ interface ResultsProps {
   apartBillWithTip: number;
   selectedCurrency: string;
   exchangeRates: ExchangeRates | null;
-  heading: string;
   resultLabels: string[];
 }
 
@@ -38,7 +37,6 @@ const Results: React.FC<ResultsProps> = ({
   apartBillWithTip,
   selectedCurrency,
   exchangeRates,
-  heading,
   resultLabels,
 }) => {
   if (!exchangeRates || !exchangeRates.conversion_rates) {
@@ -53,9 +51,6 @@ const Results: React.FC<ResultsProps> = ({
 
   return (
     <Box>
-      <Heading as="h2" mb={4}>
-        {heading}
-      </Heading>
       {resultItems.map(({ label, value }) => (
         <Text key={label} mb={2}>
           {label}:{" "}
