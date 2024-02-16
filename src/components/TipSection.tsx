@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Button, VStack, HStack } from "@chakra-ui/react";
 import Input from "./Inputs";
-import { InputConfig, TipSectionProps } from "./utils";
+import { InputConfig, TipSectionProps } from "../shared/utils";
 
 const TipSection: React.FC<TipSectionProps> = ({
   tipLabel,
@@ -15,7 +15,7 @@ const TipSection: React.FC<TipSectionProps> = ({
 
   const inputConfigs: InputConfig[] = [
     {
-      label: `${tipLabel}:`,
+      label: `${tipLabel}`,
       value: tipPercentage,
       onChange: onCustomTipChange,
     },
@@ -30,7 +30,7 @@ const TipSection: React.FC<TipSectionProps> = ({
         colorScheme="teal"
         onClick={() => handleTipButtonClick(percentage)}
       >
-        Gorjeta {percentage}%
+        {percentage}%
       </Button>
     ));
   };

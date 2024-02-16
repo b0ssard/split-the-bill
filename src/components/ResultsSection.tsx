@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Text } from "@chakra-ui/react";
-import { formatCurrencyValue, ResultItem, ResultsProps } from "./utils";
+import { formatCurrencyValue, ResultItem, ResultsProps } from "../shared/utils";
 
 const Results: React.FC<ResultsProps> = ({
   calculateTotalWithTip,

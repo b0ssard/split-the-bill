@@ -1,11 +1,19 @@
-import React from "react";
-import useCalculatorHooks from "@/hooks/calculator";
-import { Box, Heading, Container, Grid, Divider } from "@chakra-ui/react";
+import React, { useState } from "react";
+import useCalculatorHooks from "@/shared/calculator";
+import {
+  Box,
+  Heading,
+  Container,
+  Grid,
+  Divider,
+  Button,
+} from "@chakra-ui/react";
 import Input from "@/components/Inputs";
 import TipSection from "@/components/TipSection";
 import CurrencySection from "@/components/CurrencySection";
 import Results from "@/components/ResultsSection";
-import { generateInputConfig } from "@/components/utils";
+import { generateInputConfig } from "@/shared/utils";
+import translations from "@/shared/translations.json";
 
 const Home: React.FC = () => {
   const {
@@ -27,16 +35,34 @@ const Home: React.FC = () => {
     calculateCategoryTotal,
   } = useCalculatorHooks();
 
+  const [language, setLanguage] = useState<"english" | "portuguese">("english");
+
+  const toggleLanguage = () => {
+    setLanguage((prevLanguage) =>
+      prevLanguage === "english" ? "portuguese" : "english",
+    );
+  };
+
   const inputConfigs = [
-    generateInputConfig("Comida: ", foodBill, setFoodBill),
-    generateInputConfig("Bebida: ", drinkBill, setDrinkBill),
-    generateInputConfig("Pessoas: ", People, setPeople),
-    generateInputConfig("Pagar a parte: ", apartBill, setApartBill),
+    generateInputConfig(
+      translations[language].foodLabel,
+      foodBill,
+      setFoodBill,
+    ),
+    generateInputConfig(
+      translations[language].drinkLabel,
+      drinkBill,
+      setDrinkBill,
+    ),
+    generateInputConfig(translations[language].peopleLabel, People, setPeople),
+    generateInputConfig(
+      translations[language].apartLabel,
+      apartBill,
+      setApartBill,
+    ),
   ];
 
   const foodAndDrinkTotal = calculateCategoryTotal(foodBill + drinkBill);
-
-  const resultLabels = ["Valor A Parte", "Valor Final", "Valor Por Pessoa"];
 
   return (
     <Container maxW="container.md" mt={8}>
@@ -47,37 +73,37 @@ const Home: React.FC = () => {
           </Heading>
           <Input inputConfigs={inputConfigs} />
           <TipSection
-            tipLabel="Gorjeta"
+            tipLabel={translations[language].tipLabel}
             tipPercentage={tipPercentage}
             onCustomTipChange={handleCustomTipChange}
             onTipButtonClick={(percentage) => setTipPercentage(percentage)}
           />
+          <Button mt={4} onClick={toggleLanguage}>
+            {translations[language].buttonText}
+          </Button>
         </Box>
         <Box>
           <Divider my={4} />
           <Heading as="h2" mb={4}>
-            Resultados
+            {translations[language].resultsHeading}
           </Heading>
           <CurrencySection
             selectedCurrency={selectedCurrency}
             onCurrencyChange={handleCurrencyChange}
             renderedTexts={{
-              labelText: "Converter para:",
-              optionLabel: "Selecionar",
+              labelText: translations[language].currencyLabelText,
+              optionLabel: translations[language].currencyOptionLabel,
             }}
-            currencyOptions={[
-              { value: "USD", label: "USD - Dólar" },
-              { value: "EUR", label: "EUR - Euro" },
-              { value: "CAD", label: "CAD - Dólar Canadense" },
-            ]}
+            currencyOptions={translations[language].currencyOptions}
           />
+
           <Results
             calculateTotalWithTip={calculateTotalWithTip()}
             foodAndDrinkTotal={foodAndDrinkTotal}
             apartBillWithTip={apartBill + apartBill * (tipPercentage / 100)}
             selectedCurrency={selectedCurrency}
             exchangeRates={exchangeRates}
-            resultLabels={resultLabels}
+            resultLabels={translations[language].resultLabels}
           />
         </Box>
       </Grid>

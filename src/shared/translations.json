@@ -1,0 +1,62 @@
+{
+    "english": {
+        "buttonText": "Português",
+        "currencyLabelText": "Convert to",
+        "currencyOptionLabel": "Select",
+        "foodLabel": "Food:",
+        "drinkLabel": "Drink:",
+        "peopleLabel": "People:",
+        "apartLabel": "Apart Bill:",
+        "tipLabel": "Tip:",
+        "resultsHeading": "Results",
+        "resultLabels": [
+            "Individual Share",
+            "Final Amount",
+            "Amount Per Person"
+        ],
+        "currencyOptions": [
+            {
+                "value": "USD",
+                "label": "USD - Dollar"
+            },
+            {
+                "value": "EUR",
+                "label": "EUR - Euro"
+            },
+            {
+                "value": "CAD",
+                "label": "CAD - Canadian Dollar"
+            }
+        ]
+    },
+    "portuguese": {
+        "buttonText": "English",
+        "currencyLabelText": "Converter para",
+        "currencyOptionLabel": "Selecionar",
+        "foodLabel": "Comida",
+        "drinkLabel": "Bebida:",
+        "peopleLabel": "Pessoas:",
+        "apartLabel": "Pagar a parte:",
+        "tipLabel": "Gorjeta:",
+        "resultsHeading": "Resultados",
+        "resultLabels": [
+            "Valor A Parte",
+            "Valor Final",
+            "Valor Por Pessoa"
+        ],
+        "currencyOptions": [
+            {
+                "value": "USD",
+                "label": "USD - Dólar"
+            },
+            {
+                "value": "EUR",
+                "label": "EUR - Euro"
+            },
+            {
+                "value": "CAD",
+                "label": "CAD - Dólar Canadense"
+            }
+        ]
+    }
+}

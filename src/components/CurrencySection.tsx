@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Text, Select } from "@chakra-ui/react";
-import { CurrencySectionProps } from "./utils";
+import { CurrencySectionProps } from "../shared/utils";
 
 const CurrencySection: React.FC<CurrencySectionProps> = ({
   selectedCurrency,
