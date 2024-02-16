@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Text, Input as ChakraInput } from "@chakra-ui/react";
-import { InputListProps } from "./types";
+import { InputListProps } from "./utils";
 
 const Input: React.FC<InputListProps> = ({ inputConfigs }) => (
   <Box>

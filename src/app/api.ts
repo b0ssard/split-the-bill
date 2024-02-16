@@ -1,4 +1,4 @@
-import { ApiResponse } from "@/components/types";
+import { ApiResponse } from "@/components/utils";
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 const BASE_CURRENCY = "BRL";

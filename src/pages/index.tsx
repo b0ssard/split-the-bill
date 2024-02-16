@@ -5,7 +5,7 @@ import Input from "@/components/Inputs";
 import TipSection from "@/components/TipSection";
 import CurrencySection from "@/components/CurrencySection";
 import Results from "@/components/ResultsSection";
-import { generateInputConfig } from "@/components/types";
+import { generateInputConfig } from "@/components/utils";
 
 const Home: React.FC = () => {
   const {

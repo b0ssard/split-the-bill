@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ApiResponse } from "@/components/types";
+import { ApiResponse } from "@/components/utils";
 import { useToast } from "@chakra-ui/react";
 import { getExchangeRates } from "@/app/api";
 

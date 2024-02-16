@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Button, VStack, HStack } from "@chakra-ui/react";
 import Input from "./Inputs";
-import { InputConfig, TipSectionProps } from "./types";
+import { InputConfig, TipSectionProps } from "./utils";
 
 const TipSection: React.FC<TipSectionProps> = ({
   tipLabel,
