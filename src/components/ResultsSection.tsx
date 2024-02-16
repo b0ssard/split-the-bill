@@ -1,25 +1,6 @@
 import React from "react";
 import { Box, Text } from "@chakra-ui/react";
-import { ResultItem, ResultsProps } from "./types";
-
-const formatCurrencyValue = (
-  value: number,
-  selectedCurrency: string,
-  conversionRate: number,
-): string => {
-  const formattedValueConverted = (value * conversionRate).toLocaleString(
-    "pt-BR",
-    {
-      style: "currency",
-      currency: selectedCurrency,
-    },
-  );
-  const formattedValue = value.toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  });
-  return `${formattedValue} ou ${formattedValueConverted}`;
-};
+import { formatCurrencyValue, ResultItem, ResultsProps } from "./types";
 
 const Results: React.FC<ResultsProps> = ({
   calculateTotalWithTip,

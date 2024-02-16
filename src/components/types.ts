@@ -59,7 +59,27 @@ export interface TipSectionProps {
   onCustomTipChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onTipButtonClick: (percentage: number) => void;
   tipPercentage: number;
+  tipLabel: string;
 }
+
+export const formatCurrencyValue = (
+  value: number,
+  selectedCurrency: string,
+  conversionRate: number,
+): string => {
+  const formattedValueConverted = (value * conversionRate).toLocaleString(
+    "pt-BR",
+    {
+      style: "currency",
+      currency: selectedCurrency,
+    },
+  );
+  const formattedValue = value.toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+  return `${formattedValue} ou ${formattedValueConverted}`;
+};
 
 export const generateInputConfig = (
   label: string,

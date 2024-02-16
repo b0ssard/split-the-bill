@@ -4,8 +4,8 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Split The Bill - No Matter How Complicated!",
-  description: "Based on the Bon Appétit article.",
+  title: "SPL / IT.",
+  description: "Divida sua conta.",
 };
 
 export default function RootLayout({

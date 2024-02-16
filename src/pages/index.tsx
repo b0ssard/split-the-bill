@@ -5,40 +5,49 @@ import Input from "@/components/Inputs";
 import TipSection from "@/components/TipSection";
 import CurrencySection from "@/components/CurrencySection";
 import Results from "@/components/ResultsSection";
+import { generateInputConfig } from "@/components/types";
 
 const Home: React.FC = () => {
   const {
     foodBill,
+    setFoodBill,
     drinkBill,
+    setDrinkBill,
     tipPercentage,
     setTipPercentage,
     apartBill,
+    setApartBill,
+    People,
+    setPeople,
     selectedCurrency,
     exchangeRates,
-    inputConfigs,
     handleCurrencyChange,
     handleCustomTipChange,
     calculateTotalWithTip,
     calculateCategoryTotal,
   } = useCalculatorHooks();
 
+  const inputConfigs = [
+    generateInputConfig("Comida: ", foodBill, setFoodBill),
+    generateInputConfig("Bebida: ", drinkBill, setDrinkBill),
+    generateInputConfig("Pessoas: ", People, setPeople),
+    generateInputConfig("Pagar a parte: ", apartBill, setApartBill),
+  ];
+
   const foodAndDrinkTotal = calculateCategoryTotal(foodBill + drinkBill);
 
-  const resultLabels = [
-    "Valor Total a ser dividido",
-    "Valor para pessoas que comeram e beberam",
-    "Valor A Parte",
-  ];
+  const resultLabels = ["Valor A Parte", "Valor Final", "Valor Por Pessoa"];
 
   return (
     <Container maxW="container.md" mt={8}>
       <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
         <Box>
           <Heading as="h1" mb={4}>
-            Calculator App
+            SPL / IT.
           </Heading>
           <Input inputConfigs={inputConfigs} />
           <TipSection
+            tipLabel="Gorjeta"
             tipPercentage={tipPercentage}
             onCustomTipChange={handleCustomTipChange}
             onTipButtonClick={(percentage) => setTipPercentage(percentage)}
@@ -53,7 +62,7 @@ const Home: React.FC = () => {
             selectedCurrency={selectedCurrency}
             onCurrencyChange={handleCurrencyChange}
             renderedTexts={{
-              labelText: "Moeda",
+              labelText: "Converter para:",
               optionLabel: "Selecionar",
             }}
             currencyOptions={[
