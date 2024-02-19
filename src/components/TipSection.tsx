@@ -1,5 +1,6 @@
 import React from "react";
-import { Box, Button, VStack, HStack } from "@chakra-ui/react";
+import Button from "./Button";
+import { Box, HStack } from "@chakra-ui/react";
 import Input from "./Inputs";
 import { InputConfig, TipSectionProps } from "../shared/utils";
 
@@ -26,8 +27,8 @@ const TipSection: React.FC<TipSectionProps> = ({
 
     return tipValues.map((percentage) => (
       <Button
+        width="70px"
         key={percentage}
-        colorScheme="teal"
         onClick={() => handleTipButtonClick(percentage)}
       >
         {percentage}%
@@ -36,12 +37,10 @@ const TipSection: React.FC<TipSectionProps> = ({
   };
 
   return (
-    <VStack spacing={4} align="flex-start">
-      <Box mb={4}>
-        <Input inputConfigs={inputConfigs} />
-        <HStack spacing={2}>{renderTipButtons()}</HStack>
-      </Box>
-    </VStack>
+    <Box mb={4}>
+      <Input inputConfigs={inputConfigs} />
+      <HStack spacing={2}>{renderTipButtons()}</HStack>
+    </Box>
   );
 };
 

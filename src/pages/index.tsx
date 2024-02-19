@@ -1,13 +1,7 @@
 import React, { useState } from "react";
 import useCalculatorHooks from "@/shared/calculator";
-import {
-  Box,
-  Heading,
-  Container,
-  Grid,
-  Divider,
-  Button,
-} from "@chakra-ui/react";
+import Button from "@/components/Button";
+import { Box, Heading, Container, Grid, Divider } from "@chakra-ui/react";
 import Input from "@/components/Inputs";
 import TipSection from "@/components/TipSection";
 import CurrencySection from "@/components/CurrencySection";
@@ -68,7 +62,7 @@ const Home: React.FC = () => {
     <Container maxW="container.md" mt={8}>
       <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
         <Box>
-          <Heading as="h1" mb={4}>
+          <Heading as="h1" mb={4} fontFamily="sans-serif">
             SPL / IT.
           </Heading>
           <Input inputConfigs={inputConfigs} />
@@ -78,13 +72,13 @@ const Home: React.FC = () => {
             onCustomTipChange={handleCustomTipChange}
             onTipButtonClick={(percentage) => setTipPercentage(percentage)}
           />
-          <Button mt={4} onClick={toggleLanguage}>
+          <Button width="" onClick={toggleLanguage}>
             {translations[language].buttonText}
           </Button>
         </Box>
         <Box>
           <Divider my={4} />
-          <Heading as="h2" mb={4}>
+          <Heading as="h2" mb={4} fontFamily="sans-serif">
             {translations[language].resultsHeading}
           </Heading>
           <CurrencySection
