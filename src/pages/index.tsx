@@ -62,7 +62,7 @@ const Home: React.FC = () => {
     <Container maxW="container.md" mt={8}>
       <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
         <Box>
-          <Heading as="h1" mb={4} fontFamily="sans-serif">
+          <Heading as="h1" size="3xl" mb={4} fontFamily="sans-serif">
             SPL / IT.
           </Heading>
           <Input inputConfigs={inputConfigs} />
@@ -72,13 +72,13 @@ const Home: React.FC = () => {
             onCustomTipChange={handleCustomTipChange}
             onTipButtonClick={(percentage) => setTipPercentage(percentage)}
           />
-          <Button width="" onClick={toggleLanguage}>
+          <Button width="120px" onClick={toggleLanguage}>
             {translations[language].buttonText}
           </Button>
         </Box>
         <Box>
           <Divider my={4} />
-          <Heading as="h2" mb={4} fontFamily="sans-serif">
+          <Heading as="h3" size="lg" mb={4} fontFamily="sans-serif">
             {translations[language].resultsHeading}
           </Heading>
           <CurrencySection
@@ -90,7 +90,6 @@ const Home: React.FC = () => {
             }}
             currencyOptions={translations[language].currencyOptions}
           />
-
           <Results
             calculateTotalWithTip={calculateTotalWithTip()}
             foodAndDrinkTotal={foodAndDrinkTotal}

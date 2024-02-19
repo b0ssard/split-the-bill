@@ -1,7 +1,7 @@
 {
     "english": {
         "buttonText": "Português",
-        "currencyLabelText": "Convert to",
+        "currencyLabelText": "Convert to:",
         "currencyOptionLabel": "Select",
         "foodLabel": "Food:",
         "drinkLabel": "Drink:",
@@ -31,9 +31,9 @@
     },
     "portuguese": {
         "buttonText": "English",
-        "currencyLabelText": "Converter para",
+        "currencyLabelText": "Converter para:",
         "currencyOptionLabel": "Selecionar",
-        "foodLabel": "Comida",
+        "foodLabel": "Comida:",
         "drinkLabel": "Bebida:",
         "peopleLabel": "Pessoas:",
         "apartLabel": "Pagar a parte:",

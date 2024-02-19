@@ -1,6 +1,13 @@
 import React from "react";
 import Button from "./Button";
-import { Box, HStack } from "@chakra-ui/react";
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Box,
+  HStack,
+} from "@chakra-ui/react";
 import Input from "./Inputs";
 import { InputConfig, TipSectionProps } from "../shared/utils";
 
@@ -37,10 +44,12 @@ const TipSection: React.FC<TipSectionProps> = ({
   };
 
   return (
-    <Box mb={4}>
-      <Input inputConfigs={inputConfigs} />
-      <HStack spacing={2}>{renderTipButtons()}</HStack>
-    </Box>
+    <Card>
+      <Box mb={4}>
+        <Input inputConfigs={inputConfigs} />
+        <HStack spacing={2}>{renderTipButtons()}</HStack>
+      </Box>
+    </Card>
   );
 };
 

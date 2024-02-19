@@ -1,9 +1,8 @@
 import React from "react";
-import { Box, Text, Select } from "@chakra-ui/react";
+import { Box, Select } from "@chakra-ui/react";
 import { CurrencySectionProps } from "../shared/utils";
 
 const CurrencySection: React.FC<CurrencySectionProps> = ({
-  selectedCurrency,
   onCurrencyChange,
   renderedTexts,
   currencyOptions,
@@ -12,8 +11,13 @@ const CurrencySection: React.FC<CurrencySectionProps> = ({
 
   return (
     <Box mb={4}>
-      <Text>{labelText}:</Text>
-      <Select value={selectedCurrency} onChange={onCurrencyChange}>
+      <Select
+        size="lg"
+        variant="filled"
+        borderColor={"teal"}
+        placeholder={labelText}
+        onChange={onCurrencyChange}
+      >
         {currencyOptions.map((currency) => (
           <option key={currency.value} value={currency.value}>
             {optionLabel} {currency.label}
