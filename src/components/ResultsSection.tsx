@@ -21,10 +21,12 @@ const Results: React.FC<ResultsProps> = ({
   return (
     <Box>
       {resultItems.map(({ label, value }) => (
-        <Text key={label} mb={2}>
-          {label}:{" "}
-          {formatCurrencyValue(value, selectedCurrency, conversionRate)}
-        </Text>
+        <Box key={label} mb={2} display="flex" flexDirection="column">
+          <Text>{label}:</Text>
+          <Text>
+            {formatCurrencyValue(value, selectedCurrency, conversionRate)}
+          </Text>
+        </Box>
       ))}
     </Box>
   );

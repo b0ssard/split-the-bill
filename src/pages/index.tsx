@@ -72,11 +72,11 @@ const Home: React.FC = () => {
             onCustomTipChange={handleCustomTipChange}
             onTipButtonClick={(percentage) => setTipPercentage(percentage)}
           />
-          <Button width="120px" onClick={toggleLanguage}>
-            {translations[language].buttonText}
-          </Button>
         </Box>
         <Box>
+          <Button variant="outline" width="120px" onClick={toggleLanguage}>
+            {translations[language].buttonText}
+          </Button>
           <Divider my={4} />
           <Heading as="h3" size="lg" mb={4} fontFamily="sans-serif">
             {translations[language].resultsHeading}

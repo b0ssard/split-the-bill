@@ -5,6 +5,7 @@ interface CustomButtonProps {
   children: React.ReactNode;
   onClick: () => void;
   width: string;
+  variant: string;
 }
 
 const Button: React.FC<CustomButtonProps> = ({
