@@ -24,6 +24,13 @@ export interface CurrencySectionProps {
   selectedCurrency: string;
 }
 
+export interface CustomButtonProps {
+  children: React.ReactNode;
+  onClick: () => void;
+  width: string;
+  variant: string;
+}
+
 export interface ExchangeRates {
   conversion_rates: {
     [key: string]: number;

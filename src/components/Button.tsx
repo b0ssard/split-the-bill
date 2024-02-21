@@ -1,18 +1,11 @@
-import React from "react";
 import { Button as ChakraButton } from "@chakra-ui/react";
+import { CustomButtonProps } from "@/shared/utils";
 
-interface CustomButtonProps {
-  children: React.ReactNode;
-  onClick: () => void;
-  width: string;
-  variant: string;
-}
-
-const Button: React.FC<CustomButtonProps> = ({
+export default function Button({
   children,
   onClick,
   ...rest
-}) => {
+}: CustomButtonProps) {
   return (
     <ChakraButton
       colorScheme="teal"
@@ -27,6 +20,4 @@ const Button: React.FC<CustomButtonProps> = ({
       {children}
     </ChakraButton>
   );
-};
-
-export default Button;
+}

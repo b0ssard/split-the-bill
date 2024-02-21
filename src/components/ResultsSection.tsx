@@ -1,35 +1,34 @@
-import React from "react";
 import { Box, Text } from "@chakra-ui/react";
-import { formatCurrencyValue, ResultItem, ResultsProps } from "../shared/utils";
+import { formatCurrencyValue, ResultsProps } from "@/shared/utils";
 
-const Results: React.FC<ResultsProps> = ({
+export default function Results({
   calculateTotalWithTip,
   foodAndDrinkTotal,
   apartBillWithTip,
   selectedCurrency,
   exchangeRates,
   resultLabels,
-}) => {
+}: ResultsProps) {
   const conversionRate = exchangeRates?.conversion_rates[selectedCurrency] || 1;
 
-  const resultItems: ResultItem[] = [
-    { label: resultLabels[0], value: calculateTotalWithTip },
-    { label: resultLabels[1], value: foodAndDrinkTotal },
-    { label: resultLabels[2], value: apartBillWithTip },
-  ];
+  const renderResultItems = () => {
+    return resultLabels.map((label, index) => (
+      <Box key={label} mb={2} display="flex" flexDirection="column">
+        <Text>{label}:</Text>
+        <Text>
+          {formatCurrencyValue(
+            index === 0
+              ? calculateTotalWithTip
+              : index === 1
+              ? foodAndDrinkTotal
+              : apartBillWithTip,
+            selectedCurrency,
+            conversionRate,
+          )}
+        </Text>
+      </Box>
+    ));
+  };
 
-  return (
-    <Box>
-      {resultItems.map(({ label, value }) => (
-        <Box key={label} mb={2} display="flex" flexDirection="column">
-          <Text>{label}:</Text>
-          <Text>
-            {formatCurrencyValue(value, selectedCurrency, conversionRate)}
-          </Text>
-        </Box>
-      ))}
-    </Box>
-  );
-};
-
-export default Results;
+  return <Box>{renderResultItems()}</Box>;
+}

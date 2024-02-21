@@ -1,12 +1,11 @@
-import React from "react";
 import { Box, Select } from "@chakra-ui/react";
 import { CurrencySectionProps } from "../shared/utils";
 
-const CurrencySection: React.FC<CurrencySectionProps> = ({
+export default function CurrencySection({
   onCurrencyChange,
   renderedTexts,
   currencyOptions,
-}) => {
+}: CurrencySectionProps) {
   const { labelText, optionLabel } = renderedTexts;
 
   return (
@@ -26,6 +25,4 @@ const CurrencySection: React.FC<CurrencySectionProps> = ({
       </Select>
     </Box>
   );
-};
-
-export default CurrencySection;
+}
