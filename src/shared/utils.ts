@@ -36,6 +36,7 @@ export interface ExchangeRates {
     [key: string]: number;
   };
 }
+
 export interface InputConfig {
   label: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -46,11 +47,13 @@ export interface InputConfig {
 export interface InputListProps {
   inputConfigs: InputConfig[];
 }
+
 export interface LinkItem {
   label: string;
   href: string;
   imageSrc: string;
 }
+
 export interface ResultItem {
   label: string;
   value: number;

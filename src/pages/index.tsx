@@ -7,7 +7,7 @@ import CurrencySection from "@/components/CurrencySection";
 import Results from "@/components/ResultsSection";
 import Button from "@/components/Button";
 import Input from "@/components/Inputs";
-import Footer from "@/components/FooterSection";
+import Header from "@/components/HeaderSection";
 import translations from "@/shared/translations.json";
 import { generateInputConfig } from "@/shared/utils";
 
@@ -70,6 +70,7 @@ export default function Home() {
 
   return (
     <>
+      <Header />
       <Container maxW="container.md" mt={8}>
         <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
           <Box>
@@ -130,7 +131,6 @@ export default function Home() {
           </Box>
         </Grid>
       </Container>
-      <Footer />
     </>
   );
 }
