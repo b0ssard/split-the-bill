@@ -107,7 +107,7 @@ export default function Home() {
               transition={{ duration: 0.2 }}
               onAnimationComplete={onAnimationComplete}
             >
-              <Heading as="h3" size="lg" mb={4} fontFamily="sans-serif">
+              <Heading as="h3" size="lg" mb={4}>
                 {translations[language].resultsHeading}
               </Heading>
               <CurrencySection

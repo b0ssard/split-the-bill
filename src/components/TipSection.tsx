@@ -5,6 +5,7 @@ import {
   CardBody,
   CardFooter,
 } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import Button from "./Button";
 import Input from "./Inputs";
 import { TipSectionProps } from "../shared/utils";
@@ -35,22 +36,25 @@ export default function TipSection({
   };
 
   return (
-    <Card size="sm" variant="outline">
-      <CardHeader>{tipLabel}</CardHeader>
-      <CardBody>
-        <Input
-          inputConfigs={[
-            {
-              label: ``,
-              value: tipPercentage,
-              onChange: onCustomTipChange,
-            },
-          ]}
-        />
-      </CardBody>
-      <CardFooter>
-        <HStack>{renderTipButtons()}</HStack>
-      </CardFooter>
-    </Card>
+    <motion.div whileTap={{ scale: 0.7 }}>
+      {" "}
+      <Card size="sm" variant="outline">
+        <CardHeader>{tipLabel}</CardHeader>
+        <CardBody>
+          <Input
+            inputConfigs={[
+              {
+                label: ``,
+                value: tipPercentage,
+                onChange: onCustomTipChange,
+              },
+            ]}
+          />
+        </CardBody>
+        <CardFooter>
+          <HStack>{renderTipButtons()}</HStack>
+        </CardFooter>
+      </Card>
+    </motion.div>
   );
 }

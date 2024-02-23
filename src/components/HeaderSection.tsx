@@ -35,13 +35,18 @@ export default function Header() {
 
   useEffect(() => {
     controls.start({ y: 0 });
+
+    const timeout = setTimeout(() => {
+      controls.start({ y: -100 });
+    }, 1400);
+
+    return () => clearTimeout(timeout);
   }, [controls]);
 
   return (
     <motion.header
-      initial={{ y: -100 }}
       animate={controls}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.5 }}
       whileHover={{ y: 0 }}
       onMouseLeave={() => controls.start({ y: -100 })}
       style={{ position: "fixed", width: "100%", zIndex: 999 }}
@@ -52,8 +57,13 @@ export default function Header() {
         py="6"
         px="8"
         bg="teal"
+        bgGradient="linear(to-r, teal.400, teal.600)"
+        borderRadius="lg"
+        boxShadow="sm"
         color="white"
         width="100%"
+        maxWidth="1200px"
+        mx="auto"
       >
         <Text fontSize="sm" fontWeight="semibold">
           Por Victor Bossard © {new Date().getFullYear()}.
