@@ -4,16 +4,19 @@ import { AppProps } from "next/app";
 
 const theme = extendTheme({
   config: {
-    initialColorMode: "light", // Define o modo de cor inicial como "light"
-    useSystemColorMode: false, // Desativa a detecção automática do modo de cor do sistema
+    initialColorMode: "light",
+    useSystemColorMode: false,
+  },
+  fonts: {
+    heading: "sans-serif",
+    body: "sans-serif",
   },
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
-      <ColorModeScript initialColorMode={theme.config.initialColorMode} />{" "}
-      {/* Script necessário para inicializar o modo de cor */}
+      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <Component {...pageProps} />
     </ChakraProvider>
   );

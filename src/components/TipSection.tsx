@@ -37,11 +37,7 @@ export default function TipSection({
 
   return (
     <motion.div whileTap={{ scale: 0.7 }}>
-      <Card
-        size="sm"
-        variant="outline"
-        sx={{ boxShadow: "0 4px 4px rgba(0,0,0,0.1)" }}
-      >
+      <Card size="sm" variant="outline" boxShadow="0 4px 4px rgba(0,0,0,0.1)">
         <CardHeader>{tipLabel}</CardHeader>
         <CardBody>
           <Input

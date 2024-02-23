@@ -75,7 +75,13 @@ export default function Home() {
       <Container maxW="container.md" mt={8}>
         <Grid templateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={4}>
           <Box>
-            <Heading as="h1" size="3xl" mb={4} fontFamily="sans-serif">
+            <Heading
+              as="h1"
+              size="3xl"
+              mb={4}
+              fontFamily="sans-serif"
+              fontWeight="bold"
+            >
               SPL / IT.
             </Heading>
             <motion.span
