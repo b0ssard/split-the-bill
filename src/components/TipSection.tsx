@@ -1,4 +1,3 @@
-import Button from "./Button";
 import {
   HStack,
   Card,
@@ -6,6 +5,7 @@ import {
   CardBody,
   CardFooter,
 } from "@chakra-ui/react";
+import Button from "./Button";
 import Input from "./Inputs";
 import { TipSectionProps } from "../shared/utils";
 
