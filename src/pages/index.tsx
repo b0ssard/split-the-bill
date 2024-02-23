@@ -10,6 +10,7 @@ import Input from "@/components/Inputs";
 import Header from "@/components/HeaderSection";
 import translations from "@/shared/translations.json";
 import { generateInputConfig } from "@/shared/utils";
+import ColorModeSwitcher from "@/components/ColorModeSwitcher";
 
 export default function Home() {
   const {
@@ -98,6 +99,7 @@ export default function Home() {
             <Button variant="outline" width="120px" onClick={toggleLanguage}>
               {translations[language].buttonText}
             </Button>
+            <ColorModeSwitcher />
             <Divider my={4} />
             <motion.span
               initial={{ opacity: 0 }}
