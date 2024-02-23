@@ -36,7 +36,7 @@ export default function TipSection({
   };
 
   return (
-    <motion.div whileTap={{ scale: 0.7 }}>
+    <motion.div whileTap={{ scale: 0.9 }}>
       <Card size="sm" variant="outline" boxShadow="0 4px 4px rgba(0,0,0,0.1)">
         <CardHeader>{tipLabel}</CardHeader>
         <CardBody>
