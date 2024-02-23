@@ -21,6 +21,7 @@ function InputField({ config }: { config: InputConfig }) {
         value={config.value || ""}
         onChange={(e) => config.onChange(e)}
         placeholder={config.placeholder}
+        sx={{ boxShadow: "0.5px 0.5px rgba(0,0,0,0.1)" }}
       />
     </Box>
   );

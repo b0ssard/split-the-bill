@@ -16,6 +16,7 @@ export default function CurrencySection({
         borderColor={"teal"}
         placeholder={labelText}
         onChange={onCurrencyChange}
+        sx={{ boxShadow: "0 4px 4px rgba(0,0,0,0.1)" }}
       >
         {currencyOptions.map((currency) => (
           <option key={currency.value} value={currency.value}>
