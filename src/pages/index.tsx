@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Box, Flex, Heading, Container, Grid, Divider } from "@chakra-ui/react";
 import useCalculatorHooks from "@/shared/calculator";
@@ -36,6 +36,59 @@ export default function Home() {
     "portuguese",
   );
   const [isAnimating, setIsAnimating] = useState(false);
+
+  useEffect(() => {
+    const savedLanguage = localStorage.getItem("language");
+    if (
+      savedLanguage &&
+      (savedLanguage === "english" || savedLanguage === "portuguese")
+    ) {
+      setLanguage(savedLanguage as "english" | "portuguese");
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("language", language);
+  }, [language]);
+
+  const loadInputDataFromLocalStorage = () => {
+    const savedFoodBill = localStorage.getItem("foodBill");
+    if (savedFoodBill) {
+      setFoodBill(parseFloat(savedFoodBill));
+    }
+    const savedDrinkBill = localStorage.getItem("drinkBill");
+    if (savedDrinkBill) {
+      setDrinkBill(parseFloat(savedDrinkBill));
+    }
+    const savedTipPercentage = localStorage.getItem("tipPercentage");
+    if (savedTipPercentage) {
+      setTipPercentage(parseFloat(savedTipPercentage));
+    }
+    const savedApartBill = localStorage.getItem("apartBill");
+    if (savedApartBill) {
+      setApartBill(parseFloat(savedApartBill));
+    }
+    const savedPeople = localStorage.getItem("People");
+    if (savedPeople) {
+      setPeople(parseFloat(savedPeople));
+    }
+  };
+
+  useEffect(() => {
+    loadInputDataFromLocalStorage();
+  }, []);
+
+  const saveInputDataToLocalStorage = () => {
+    localStorage.setItem("foodBill", foodBill.toString());
+    localStorage.setItem("drinkBill", drinkBill.toString());
+    localStorage.setItem("tipPercentage", tipPercentage.toString());
+    localStorage.setItem("apartBill", apartBill.toString());
+    localStorage.setItem("People", People.toString());
+  };
+
+  useEffect(() => {
+    saveInputDataToLocalStorage();
+  }, [foodBill, drinkBill, tipPercentage, apartBill, People]);
 
   const toggleLanguage = () => {
     setIsAnimating(true);
