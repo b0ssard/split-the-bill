@@ -1,6 +1,6 @@
+import { AppProps } from "next/app";
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import { extendTheme } from "@chakra-ui/react";
-import { AppProps } from "next/app";
 
 const theme = extendTheme({
   config: {

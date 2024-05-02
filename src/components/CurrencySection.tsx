@@ -1,5 +1,5 @@
 import { Box, Select } from "@chakra-ui/react";
-import { CurrencySectionProps } from "../shared/utils";
+import { CurrencySectionProps } from "@/shared/interfaces";
 
 export default function CurrencySection({
   onCurrencyChange,

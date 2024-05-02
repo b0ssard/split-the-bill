@@ -8,7 +8,7 @@ import {
 import { motion } from "framer-motion";
 import Button from "./Button";
 import Input from "./Inputs";
-import { TipSectionProps } from "../shared/utils";
+import { TipSectionProps } from "@/shared/interfaces";
 
 export default function TipSection({
   tipLabel,

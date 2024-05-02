@@ -1,5 +1,5 @@
 import { Box, Text, Input as ChakraInput } from "@chakra-ui/react";
-import { InputListProps, InputConfig } from "../shared/utils";
+import { InputListProps, InputConfig } from "@/shared/interfaces";
 
 export default function Input({ inputConfigs }: InputListProps) {
   return (

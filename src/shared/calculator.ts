@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ApiResponse } from "@/shared/utils";
+import { ApiResponse } from "@/shared/interfaces";
 import { useToast } from "@chakra-ui/react";
 import { getExchangeRates } from "@/app/api";
 

@@ -1,6 +1,6 @@
 import { useColorMode, IconButton } from "@chakra-ui/react";
-import { motion } from "framer-motion";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { motion } from "framer-motion";
 
 export default function ColorModeSwitcher() {
   const { colorMode, toggleColorMode } = useColorMode();

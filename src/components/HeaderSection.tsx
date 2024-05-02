@@ -5,7 +5,7 @@ import linkedinImage from "../../public/images/linkedin.png";
 import githubImage from "../../public/images/github.png";
 import emailImage from "../../public/images/email.png";
 import whatsappImage from "../../public/images/whatsapp.png";
-import { LinkItem } from "@/shared/utils";
+import { LinkItem } from "@/shared/interfaces";
 
 const links: LinkItem[] = [
   {

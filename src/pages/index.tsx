@@ -14,7 +14,7 @@ import {
   loadInputDataFromLocalStorage,
   saveInputDataToLocalStorage,
   generateInputConfig,
-} from "@/shared/utils";
+} from "@/shared/functions";
 
 export default function Home() {
   const {

@@ -1,6 +1,6 @@
 import { Button as ChakraButton } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { CustomButtonProps } from "@/shared/utils";
+import { CustomButtonProps } from "@/shared/interfaces";
 
 export default function Button({
   children,

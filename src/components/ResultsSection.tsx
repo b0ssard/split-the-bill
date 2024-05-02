@@ -1,7 +1,8 @@
-import { Box, Text } from "@chakra-ui/react";
-import { formatCurrencyValue, ResultsProps } from "@/shared/utils";
-import { motion, useAnimation } from "framer-motion";
 import { useEffect } from "react";
+import { Box, Text } from "@chakra-ui/react";
+import { motion, useAnimation } from "framer-motion";
+import { ResultsProps } from "@/shared/interfaces";
+import { formatCurrencyValue } from "@/shared/functions";
 
 export default function Results({
   calculateTotalWithTip,
