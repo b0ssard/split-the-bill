@@ -3,7 +3,7 @@ import { ApiResponse } from "@/shared/interfaces";
 import { useToast } from "@chakra-ui/react";
 import { getExchangeRates } from "@/app/api";
 
-const useCalculatorHooks = () => {
+export default function useCalculatorHooks() {
   const [foodBill, setFoodBill] = useState(0);
   const [drinkBill, setDrinkBill] = useState(0);
   const [People, setPeople] = useState(1);
@@ -12,7 +12,7 @@ const useCalculatorHooks = () => {
   const [selectedCurrency, setSelectedCurrency] = useState("USD");
   const [exchangeRates, setExchangeRates] = useState<ApiResponse | null>(null);
 
-  const handleFetchError = () => {
+  function handleFetchError() {
     useToast({
       title: "Erro ao obter taxas de câmbio",
       description: "Por favor, tente novamente mais tarde.",
@@ -20,44 +20,40 @@ const useCalculatorHooks = () => {
       duration: 5000,
       isClosable: true,
     });
-  };
+  }
 
   useEffect(() => {
-    const fetchData = async () => {
+    async function fetchData() {
       try {
         const rates = await getExchangeRates();
         setExchangeRates(rates);
       } catch (error) {
         handleFetchError();
       }
-    };
+    }
 
     fetchData();
   }, []);
 
-  const handleCurrencyChange = (
-    event: React.ChangeEvent<HTMLSelectElement>,
-  ) => {
+  function handleCurrencyChange(event: React.ChangeEvent<HTMLSelectElement>) {
     setSelectedCurrency(event.target.value);
-  };
+  }
 
-  const handleCustomTipChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  function handleCustomTipChange(event: React.ChangeEvent<HTMLInputElement>) {
     const customTip = parseFloat(event.target.value);
     setTipPercentage(isNaN(customTip) ? 0 : customTip);
-  };
+  }
 
-  const calculateTotalWithTip = () => {
+  function calculateTotalWithTip() {
     const totalWithoutTip = foodBill + drinkBill;
     return (
       totalWithoutTip + totalWithoutTip * (tipPercentage / 100) - apartBill
     );
-  };
+  }
 
-  const calculateCategoryTotal = (bill: number) => {
+  function calculateCategoryTotal(bill: number) {
     return bill !== 0 ? (bill + bill * (tipPercentage / 100)) / People : 0;
-  };
+  }
 
   return {
     foodBill,
@@ -77,6 +73,4 @@ const useCalculatorHooks = () => {
     calculateTotalWithTip,
     calculateCategoryTotal,
   };
-};
-
-export default useCalculatorHooks;
+}
