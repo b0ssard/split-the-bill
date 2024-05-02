@@ -10,7 +10,11 @@ import Input from "@/components/Inputs";
 import Header from "@/components/HeaderSection";
 import ColorModeSwitcher from "@/components/ColorModeSwitcher";
 import translations from "@/shared/translations.json";
-import { generateInputConfig } from "@/shared/utils";
+import {
+  loadInputDataFromLocalStorage,
+  saveInputDataToLocalStorage,
+  generateInputConfig,
+} from "@/shared/utils";
 
 export default function Home() {
   const {
@@ -51,43 +55,24 @@ export default function Home() {
     localStorage.setItem("language", language);
   }, [language]);
 
-  const loadInputDataFromLocalStorage = () => {
-    const savedFoodBill = localStorage.getItem("foodBill");
-    if (savedFoodBill) {
-      setFoodBill(parseFloat(savedFoodBill));
-    }
-    const savedDrinkBill = localStorage.getItem("drinkBill");
-    if (savedDrinkBill) {
-      setDrinkBill(parseFloat(savedDrinkBill));
-    }
-    const savedTipPercentage = localStorage.getItem("tipPercentage");
-    if (savedTipPercentage) {
-      setTipPercentage(parseFloat(savedTipPercentage));
-    }
-    const savedApartBill = localStorage.getItem("apartBill");
-    if (savedApartBill) {
-      setApartBill(parseFloat(savedApartBill));
-    }
-    const savedPeople = localStorage.getItem("People");
-    if (savedPeople) {
-      setPeople(parseFloat(savedPeople));
-    }
-  };
-
   useEffect(() => {
-    loadInputDataFromLocalStorage();
+    loadInputDataFromLocalStorage({
+      setFoodBill,
+      setDrinkBill,
+      setTipPercentage,
+      setApartBill,
+      setPeople,
+    });
   }, []);
 
-  const saveInputDataToLocalStorage = () => {
-    localStorage.setItem("foodBill", foodBill.toString());
-    localStorage.setItem("drinkBill", drinkBill.toString());
-    localStorage.setItem("tipPercentage", tipPercentage.toString());
-    localStorage.setItem("apartBill", apartBill.toString());
-    localStorage.setItem("People", People.toString());
-  };
-
   useEffect(() => {
-    saveInputDataToLocalStorage();
+    saveInputDataToLocalStorage({
+      foodBill,
+      drinkBill,
+      tipPercentage,
+      apartBill,
+      People,
+    });
   }, [foodBill, drinkBill, tipPercentage, apartBill, People]);
 
   const toggleLanguage = () => {

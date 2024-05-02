@@ -106,3 +106,60 @@ export const generateInputConfig = (
   },
   value,
 });
+
+interface InputData {
+  foodBill: number;
+  drinkBill: number;
+  tipPercentage: number;
+  apartBill: number;
+  People: number;
+}
+
+export function loadInputDataFromLocalStorage({
+  setFoodBill,
+  setDrinkBill,
+  setTipPercentage,
+  setApartBill,
+  setPeople,
+}: {
+  setFoodBill: (value: number) => void;
+  setDrinkBill: (value: number) => void;
+  setTipPercentage: (value: number) => void;
+  setApartBill: (value: number) => void;
+  setPeople: (value: number) => void;
+}) {
+  const savedFoodBill = localStorage.getItem("foodBill");
+  if (savedFoodBill) {
+    setFoodBill(parseFloat(savedFoodBill));
+  }
+  const savedDrinkBill = localStorage.getItem("drinkBill");
+  if (savedDrinkBill) {
+    setDrinkBill(parseFloat(savedDrinkBill));
+  }
+  const savedTipPercentage = localStorage.getItem("tipPercentage");
+  if (savedTipPercentage) {
+    setTipPercentage(parseFloat(savedTipPercentage));
+  }
+  const savedApartBill = localStorage.getItem("apartBill");
+  if (savedApartBill) {
+    setApartBill(parseFloat(savedApartBill));
+  }
+  const savedPeople = localStorage.getItem("People");
+  if (savedPeople) {
+    setPeople(parseFloat(savedPeople));
+  }
+}
+
+export function saveInputDataToLocalStorage({
+  foodBill,
+  drinkBill,
+  tipPercentage,
+  apartBill,
+  People,
+}: InputData) {
+  localStorage.setItem("foodBill", foodBill.toString());
+  localStorage.setItem("drinkBill", drinkBill.toString());
+  localStorage.setItem("tipPercentage", tipPercentage.toString());
+  localStorage.setItem("apartBill", apartBill.toString());
+  localStorage.setItem("People", People.toString());
+}
