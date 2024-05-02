@@ -1,17 +1,19 @@
-import React from "react";
-import { motion } from "framer-motion";
 import { Box, Heading } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import Input from "@/components/Inputs";
 import TipSection from "@/components/TipSection";
+import translations from "@/shared/translations.json";
+import { InputSectionProps } from "@/shared/interfaces";
 
-function InputSection({
+export default function InputSection({
   language,
   inputConfigs,
   onAnimationComplete,
   handleCustomTipChange,
   setTipPercentage,
   isAnimating,
-}) {
+  tipPercentage,
+}: InputSectionProps) {
   return (
     <Box>
       <Heading
@@ -42,5 +44,3 @@ function InputSection({
     </Box>
   );
 }
-
-export default InputSection;
