@@ -1,36 +1,20 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Split the Bill
+https://splitthebillcalc.netlify.app/
 
-## Getting Started
+O "Split the Bill" é um aplicativo web desenvolvido para facilitar o cálculo e divisão de contas entre amigos em situações como jantares, viagens ou outras atividades em grupo onde os custos precisam ser divididos de maneira justa.
 
-First, run the development server:
+## Funcionalidades
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Adicionar Despesas**: Os usuários podem registrar as despesas incorridas durante a atividade em grupo, incluindo o valor total e quem pagou.
+- **Divisão Equitativa**: O aplicativo calcula automaticamente quanto cada pessoa deve pagar com base nas despesas registradas e na quantidade de pessoas envolvidas.
+- **Personalização de Pagamentos**: Os usuários podem editar as despesas e ajustar os valores de pagamento individual, se necessário.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tecnologias Utilizadas
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **React**: Biblioteca JavaScript utilizada para criar interfaces de usuário dinâmicas e responsivas.
+- **Next.js**: Framework React utilizado para renderização do lado do servidor e desenvolvimento de aplicações web com React de forma mais eficiente.
+- **Chakra UI**: Biblioteca de componentes de interface do usuário para React com foco em acessibilidade e facilidade de uso.
+- **Framer Motion**: Biblioteca de animações para React utilizada para adicionar efeitos de animação de forma fácil e elegante.
+- **TypeScript**: Superset de JavaScript que adiciona tipagem estática à linguagem, proporcionando uma experiência de desenvolvimento mais robusta e segura.
+- **API Exchange Rate**: Uma API utilizada para obter informações de taxas de câmbio para conversão de moedas.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
